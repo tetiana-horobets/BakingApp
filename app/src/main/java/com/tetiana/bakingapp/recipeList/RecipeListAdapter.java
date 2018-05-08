@@ -21,7 +21,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     private int clickedPosition;
 
-    RecipeListAdapter(Context context, ArrayList<Recipe> movieList, ListItemClickListener listener)
+    public RecipeListAdapter(Context context, ArrayList<Recipe> movieList, ListItemClickListener listener)
     {
         this.context = context;
         this.recipes = movieList;

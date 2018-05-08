@@ -1,45 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/quantity"
         android:layout_width="70dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlCompat" />
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/measure"
         android:layout_width="56dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintHorizontal_bias="0.278"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/quantity"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlCompat" />
+        android:layout_height="30dp"
+        android:layout_alignBaseline="@+id/quantity"
+        android:layout_alignBottom="@+id/quantity"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
+        android:layout_toEndOf="@+id/quantity"
+        android:layout_toRightOf="@+id/quantity" />
 
     <TextView
         android:id="@+id/ingredient"
         android:layout_width="217dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/measure"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlCompat" />
+        android:layout_height="30dp"
+        android:layout_alignBaseline="@+id/measure"
+        android:layout_alignBottom="@+id/measure"
+        android:layout_toEndOf="@+id/measure"
+        android:layout_toRightOf="@+id/measure" />
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
