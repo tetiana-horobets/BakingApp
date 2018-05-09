@@ -1,15 +1,10 @@
 package com.tetiana.bakingapp.recipeIngredient;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.tetiana.bakingapp.MyFactory;
 import com.tetiana.bakingapp.R;
-import com.tetiana.bakingapp.model.Ingredient;
-
-import java.util.ArrayList;
 
 public class IngredientActivity extends AppCompatActivity {
     Integer recipe_id;
@@ -26,6 +21,4 @@ public class IngredientActivity extends AppCompatActivity {
                 .add(R.id.frame_layout_ingredient, RecipeIngredientFragment.newInstance())
                 .commit();
     }
-
-
 }

@@ -12,7 +12,6 @@ import com.tetiana.bakingapp.model.Ingredient;
 
 import java.util.ArrayList;
 
-
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientHolder>{
 
     private ArrayList<Ingredient> ingredients;
@@ -38,7 +37,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     public IngredientHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
     {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.ingredient_list_item, viewGroup, false);
+        View view = inflater.inflate(R.layout.item, viewGroup, false);
         return new IngredientHolder(view);
     }
 
@@ -55,8 +54,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         public IngredientHolder(View itemView) {
             super(itemView);
             recipeIngredientName = itemView.findViewById(R.id.ingredient);
-            recipeMeasure = itemView.findViewById(R.id.measure);
-            recipeQuantity = itemView.findViewById(R.id.quantity);
+            recipeMeasure = itemView.findViewById(R.id.quantity);
+            recipeQuantity = itemView.findViewById(R.id.measure);
         }
     }
 }

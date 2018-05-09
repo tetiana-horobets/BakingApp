@@ -1,20 +1,17 @@
 package com.tetiana.bakingapp;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.widget.RemoteViews;
 
-import com.tetiana.bakingapp.model.Ingredient;
-
-
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class MyProvider extends AppWidgetProvider {
+public class WidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_VIEW_DETAILS =
             "com.company.android.ACTION_VIEW_DETAILS";
@@ -29,34 +26,35 @@ public class MyProvider extends AppWidgetProvider {
 
             int widgetId = appWidgetIds[i];
 
-            Intent intent = new Intent(context, MyService.class);
+            Intent intent = new Intent(context, WidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
 
             RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.baking_widget_provide);
             widgetView.setRemoteAdapter(R.id.lvList, intent);
             widgetView.setEmptyView(R.id.lvList, R.id.tvUpdate);
 
-            Intent detailIntent = new Intent(ACTION_VIEW_DETAILS);
-            PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, detailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            widgetView.setPendingIntentTemplate(R.id.lvList, pIntent);
-
             appWidgetManager.updateAppWidget(widgetId, widgetView);
+
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            int id = preferences.getInt(MainActivity.RECIPE_ID, 0);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        if(intent.getAction().equals(ACTION_VIEW_DETAILS)) {
-            Ingredient ingredient = (Ingredient) intent.getSerializableExtra(EXTRA_ITEM);
-            if(ingredient != null) {
-                // Handle the click here.
-                // Maybe start a details activity?
-                // Maybe consider using an Activity PendingIntent instead of a Broadcast?
-            }
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
+        SharedPreferences.Editor editor = context.getSharedPreferences(
+                MainActivity.RECIPE_ID, Context.MODE_PRIVATE).edit();
+        for (int widgetID : appWidgetIds) {
+            editor.remove(MainActivity.RECIPE_ID + widgetID);
         }
-        Bundle getPrevData = intent.getExtras();
-        Integer data = getPrevData.getInt("recipeID");
+        editor.apply();
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
     }
 }

@@ -1,5 +1,7 @@
 package com.tetiana.bakingapp.model;
 
+import android.support.annotation.NonNull;
+
 public class Ingredient implements CharSequence {
    private String quantity;
 
@@ -40,6 +42,7 @@ public class Ingredient implements CharSequence {
         return null;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return super.toString();

@@ -69,6 +69,4 @@ public class RecipeList extends Fragment implements RecipeListAdapter.ListItemCl
         intent.putExtra("recipeID", id);
         startActivity(intent);
     }
-
-
 }

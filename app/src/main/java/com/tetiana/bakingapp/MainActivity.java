@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
     private RecipeListAdapter movieAdapter;
     RecyclerView mRecyclerView;
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    public final static String RECIPE_ID = "widget_pref";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +53,10 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         Intent intent = new Intent(this, IngredientActivity.class);
         intent.putExtra("recipeID", id);
         startActivity(intent);
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("recipeID", id);
+        editor.putInt(RECIPE_ID, id);
         editor.apply();
     }
 }
