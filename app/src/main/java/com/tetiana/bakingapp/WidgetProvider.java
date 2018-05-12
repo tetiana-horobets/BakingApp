@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.widget.RemoteViews;
 
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class WidgetProvider extends AppWidgetProvider {
 
@@ -27,6 +28,7 @@ public class WidgetProvider extends AppWidgetProvider {
             int widgetId = appWidgetIds[i];
 
             Intent intent = new Intent(context, WidgetService.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
 
             RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.baking_widget_provide);
@@ -35,9 +37,9 @@ public class WidgetProvider extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(widgetId, widgetView);
 
-
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             int id = preferences.getInt(MainActivity.RECIPE_ID, 0);
+
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
@@ -45,12 +47,6 @@ public class WidgetProvider extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
-        SharedPreferences.Editor editor = context.getSharedPreferences(
-                MainActivity.RECIPE_ID, Context.MODE_PRIVATE).edit();
-        for (int widgetID : appWidgetIds) {
-            editor.remove(MainActivity.RECIPE_ID + widgetID);
-        }
-        editor.apply();
     }
 
     @Override

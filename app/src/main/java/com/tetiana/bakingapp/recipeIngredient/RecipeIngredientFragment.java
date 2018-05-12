@@ -50,5 +50,7 @@ public class RecipeIngredientFragment extends Fragment {
         RecyclerView mRecyclerView = view.findViewById(R.id.rv_ingredient_list);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(),  1));
         mRecyclerView.setAdapter(ingredientAdapter);
+
     }
+
 }

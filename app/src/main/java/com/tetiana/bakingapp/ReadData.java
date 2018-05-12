@@ -9,6 +9,8 @@ import android.util.JsonReader;
 import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,6 +36,7 @@ public class ReadData {
         }
         return steps;
     }
+
 
   public ArrayList<Recipe> getRecipe(ArrayList<Recipe> recipes){
         try {

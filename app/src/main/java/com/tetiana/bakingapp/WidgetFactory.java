@@ -9,16 +9,24 @@ import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.internal.bind.SqlDateTypeAdapter;
+import com.google.gson.reflect.TypeToken;
 import com.tetiana.bakingapp.model.Ingredient;
+import com.tetiana.bakingapp.model.Recipe;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private static final int ID_CONSTANT = 0x0101010;
 
-    private ArrayList<Ingredient> ingredients;
+    private ArrayList<Ingredient> ingredients = new ArrayList<>();
     private Context mContext;
 
     public WidgetFactory(Context context, Intent intent) {
@@ -27,15 +35,6 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        ingredients = new ArrayList<Ingredient>();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        int id = preferences.getInt("recipeID", 0);
-        try {
-            ReadData readData = new ReadData(mContext);
-            ingredients = readData.getRecipe(id).getIngredients();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -83,9 +82,24 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
         return true;
     }
 
+    public static Object fromJson(String jsonString, Type type) {
+        return new Gson().fromJson(jsonString, type);
+    }
     @Override
     public void onDataSetChanged() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SqlDateTypeAdapter sqlAdapter = new SqlDateTypeAdapter();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(java.sql.Date.class, sqlAdapter)
+                .setDateFormat("yyyy-MM-dd")
+                .create();
+        String json = preferences.getString("ingredients", "");
 
+        if (!json.equals("")) {
+            Recipe recipe = gson.fromJson(json, new TypeToken<Recipe>() {
+            }.getType());
+            ingredients = recipe.getIngredients();
+        }
     }
 
     @Override

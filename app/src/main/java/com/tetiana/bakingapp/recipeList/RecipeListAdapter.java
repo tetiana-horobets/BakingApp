@@ -1,6 +1,8 @@
 package com.tetiana.bakingapp.recipeList;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.google.gson.Gson;
 import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.model.Recipe;
 
@@ -68,11 +71,14 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         public void onClick(View view) {
             clickedPosition = getAdapterPosition();
             mOnClickListener.onListItemClick(clickedPosition);
-
         }
     }
 
     public Integer getId() {
         return recipes.get(clickedPosition).getId();
+    }
+
+    public Integer getClickedPosition() {
+        return clickedPosition;
     }
 }
