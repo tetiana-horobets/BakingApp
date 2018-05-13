@@ -5,14 +5,20 @@
     android:padding="@dimen/widget_margin">
 
     <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Ingredients"
+        android:gravity="center" />
+
+    <TextView
         android:id="@+id/tvUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:background="#3300ff00"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge">
-    </TextView>
+        android:layout_below="@+id/text_view"/>
+
     <ListView
         android:id="@+id/lvList"
         android:layout_width="match_parent"
