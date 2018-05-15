@@ -16,6 +16,8 @@ import com.google.gson.Gson;
 import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.recipeIngredient.IngredientActivity;
 import com.tetiana.bakingapp.recipeList.RecipeListAdapter;
+import com.tetiana.bakingapp.recipeSteps.StepActivity;
+import com.tetiana.bakingapp.recipeSteps.StepListActivity;
 
 
 import java.io.IOException;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
     @Override
     public void onListItemClick(int clickedItemIndex) {
         Integer id = movieAdapter.getId();
-        Intent intent = new Intent(this, IngredientActivity.class);
+        Intent intent = new Intent(this, StepListActivity.class);
         intent.putExtra("recipeID", id);
         startActivity(intent);
 
