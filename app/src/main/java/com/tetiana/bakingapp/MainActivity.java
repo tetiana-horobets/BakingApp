@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,9 +13,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.tetiana.bakingapp.model.Recipe;
-import com.tetiana.bakingapp.recipeIngredient.IngredientActivity;
 import com.tetiana.bakingapp.recipeList.RecipeListAdapter;
-import com.tetiana.bakingapp.recipeSteps.StepActivity;
 import com.tetiana.bakingapp.recipeSteps.StepListActivity;
 
 
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         mRecyclerView = findViewById(R.id.rv_show_recipes_list);
         movieAdapter = new RecipeListAdapter(this, recipes, this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,  new NumberOfColumns().numberOfColumns(this)));

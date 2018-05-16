@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.ReadData;
 import com.tetiana.bakingapp.model.Step;
@@ -23,9 +22,10 @@ public class StepListFragment extends Fragment implements StepAdapter.ListItemCl
     ArrayList<Step> steps = new ArrayList<>();
     private StepAdapter stepAdapter;
 
-    public static StepListFragment newInstance() {
-        return new StepListFragment();
-    }
+    private StepChangeHandler stepChangeHandler = new StepChangeHandler() {
+        @Override
+        public void onStepChanged(int stepId) {}
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +43,6 @@ public class StepListFragment extends Fragment implements StepAdapter.ListItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_steps_list, container, false);
-
     }
 
     @Override
@@ -57,9 +56,17 @@ public class StepListFragment extends Fragment implements StepAdapter.ListItemCl
     @Override
     public void onListItemClick(int clickedItemIndex) {
         int id = stepAdapter.getId();
-        Intent intent = new Intent(getActivity(), StepActivity.class);
-        intent.putExtra("stepID", id);
-        intent.putExtra("ID", id);
-        startActivity(intent);
+//            Intent intent = new Intent(getActivity(), StepDetailFragment.class);
+//            intent.putExtra("stepID", id);
+//            startActivity(intent);
+        stepChangeHandler.onStepChanged(id);
+    }
+
+    public interface StepChangeHandler {
+        void onStepChanged(int stepId);
+    }
+
+    public void setStepChangeHandler(StepChangeHandler stepChangeHandler) {
+        this.stepChangeHandler = stepChangeHandler;
     }
 }

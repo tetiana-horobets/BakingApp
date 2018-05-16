@@ -19,8 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".recipeIngredient.IngredientActivity" />
-        <activity android:name=".recipeSteps.StepActivity" />
-        <service android:name=".WidgetService"
+        <activity android:name=".recipeSteps.StepDetailsActivity" />
+
+        <service
+            android:name=".WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver android:name=".WidgetProvider">
@@ -33,7 +35,7 @@
                 android:resource="@xml/baking_widget_provide_info" />
         </receiver>
 
-        <activity android:name=".recipeSteps.StepListActivity"></activity>
+        <activity android:name=".recipeSteps.StepListActivity" />
     </application>
 
 </manifest>

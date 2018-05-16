@@ -10,18 +10,18 @@ import android.widget.TextView;
 import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.model.Step;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
 
-    private ArrayList<Step> steps;
+    private List<Step> steps;
     private Context context;
     final private ListItemClickListener mOnClickListener;
     int clickedPosition;
 
 
-    public StepAdapter(ArrayList<Step> steps, Context context, ListItemClickListener listener) {
+    public StepAdapter(List<Step> steps, Context context, ListItemClickListener listener) {
         this.steps = steps;
         this.context = context;
         mOnClickListener = listener;

@@ -12,7 +12,8 @@ public class NumberOfColumns {
         int width = displayMetrics.widthPixels;
         int nColumns = width / widthDivider;
         if (nColumns < 3) return 1;
-        if (nColumns < 5) return 3;
+        if (nColumns < 6) return 2;
+        if (nColumns < 9) return 3;
         return nColumns;
     }
 }

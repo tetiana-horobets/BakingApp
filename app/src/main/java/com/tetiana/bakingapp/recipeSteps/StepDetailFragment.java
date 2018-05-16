@@ -51,6 +51,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private SimpleExoPlayer player;
     String path;
 
+    public void setStep_id(int step_id) {
+        this.step_id = step_id;
+    }
+
     public static StepDetailFragment newInstance() {
         return new StepDetailFragment();
     }
@@ -58,7 +62,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        step_id = getActivity().getIntent().getIntExtra("stepID", 0);
+        step_id = getActivity().getIntent().getIntExtra("chickID", 0);
         try {
             ReadData readData = new ReadData(getActivity().getApplicationContext());
             steps = readData.getStepList(steps);
