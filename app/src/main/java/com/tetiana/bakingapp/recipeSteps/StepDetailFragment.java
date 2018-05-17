@@ -2,9 +2,12 @@ package com.tetiana.bakingapp.recipeSteps;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -62,7 +65,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        step_id = getActivity().getIntent().getIntExtra("chickID", 0);
+        step_id = getActivity().getIntent().getIntExtra("stepID", 0);
         try {
             ReadData readData = new ReadData(getActivity().getApplicationContext());
             steps = readData.getStepList(steps);
@@ -80,8 +83,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         TextView stepText = view.findViewById(R.id.step_full_text);
         stepText.setText(steps.get(step_id).getDescription());
+
         path = steps.get(step_id).getVideoURL();
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory =
@@ -186,5 +191,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     public void onDestroy() {
         super.onDestroy();
         player.release();   //it is important to release a player
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
