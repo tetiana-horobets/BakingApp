@@ -33,6 +33,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -53,19 +54,17 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private int step_id;
     private SimpleExoPlayer player;
     String path;
+    SimpleExoPlayerView playerView;
 
     public void setStep_id(int step_id) {
         this.step_id = step_id;
-    }
-
-    public static StepDetailFragment newInstance() {
-        return new StepDetailFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         step_id = getActivity().getIntent().getIntExtra("stepID", 0);
+
         try {
             ReadData readData = new ReadData(getActivity().getApplicationContext());
             steps = readData.getStepList(steps);
@@ -98,7 +97,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         // 3. Create the player
         player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
 
-        SimpleExoPlayerView playerView = (SimpleExoPlayerView) view.findViewById(R.id.playerView);
+        playerView = (SimpleExoPlayerView) view.findViewById(R.id.playerView);
         playerView.setPlayer(player);
         playerView.setKeepScreenOn(true);
         // Produces DataSource instances through which media data is loaded.
@@ -196,5 +195,17 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+//        int orientation = getResources().getConfiguration().orientation;
+//        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+//        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+//        }
     }
 }

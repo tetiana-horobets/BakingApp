@@ -13,19 +13,18 @@ import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.ReadData;
 import com.tetiana.bakingapp.model.Step;
 import com.tetiana.bakingapp.recipeIngredient.IngredientActivity;
-import com.tetiana.bakingapp.recipeSteps.StepListFragment.StepChangeHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class StepListActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
+public class StepActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
 
     private boolean mTwoPane;
     ArrayList<Step> steps = new ArrayList<>();
     private StepAdapter stepAdapter;
-    int id;
+    private StepDetailFragment finalStepDetailFragment;
 
-    private StepListFragment.StepChangeHandler stepChangeHandler = new StepListFragment.StepChangeHandler() {
+    private StepActivity.StepChangeHandler stepChangeHandler = new StepActivity.StepChangeHandler() {
         @Override
         public void onStepChanged(int stepId) {}
     };
@@ -35,6 +34,19 @@ public class StepListActivity extends AppCompatActivity implements StepAdapter.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
 
+        Button ingredient = (Button) findViewById(R.id.ingredients);
+        RecyclerView mRecyclerView = findViewById(R.id.rv_step_list);
+        final Integer recipe_id = getIntent().getIntExtra("recipeID", 0);
+
+        ingredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StepActivity.this, IngredientActivity.class);
+                intent.putExtra("recipeID", recipe_id);
+                StepActivity.this.startActivity(intent);
+            }
+        });
+
         try {
             ReadData readData = new ReadData(getApplicationContext());
             steps = readData.getStepList(steps);
@@ -42,31 +54,33 @@ public class StepListActivity extends AppCompatActivity implements StepAdapter.L
             e.printStackTrace();
         }
         stepAdapter = new StepAdapter(steps, getApplicationContext(), this);
-        RecyclerView mRecyclerView = findViewById(R.id.rv_step_list);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         mRecyclerView.setAdapter(stepAdapter);
 
         if (findViewById(R.id.lend_layout) != null){
             mTwoPane = true;
-            final StepDetailFragment stepDetailFragment = new StepDetailFragment();
+            finalStepDetailFragment = new StepDetailFragment();
+            if (savedInstanceState == null){
+                setStepChangeHandler(new StepActivity.StepChangeHandler() {
+                    @Override
+                    public void onStepChanged(int stepId) {
+                        finalStepDetailFragment.setStep_id(stepId);
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .detach(finalStepDetailFragment)
+                                .attach(finalStepDetailFragment)
+                                .commit();
+                    }
+                });
+            }else {
+                finalStepDetailFragment = (StepDetailFragment) getSupportFragmentManager()
+                        .findFragmentByTag("MY_FRAGMENT_TAG");
 
-            setStepChangeHandler(new StepListFragment.StepChangeHandler() {
-                @Override
-                public void onStepChanged(int stepId) {
-                    stepDetailFragment.setStep_id(stepId);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .detach(stepDetailFragment)
-                            .attach(stepDetailFragment)
-                            .commit();
-                }
-            });
-
+            }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.frame_layout_step, stepDetailFragment)
+                    .add(R.id.frame_layout_step, finalStepDetailFragment, "MY_FRAGMENT_TAG")
                     .commit();
-
         }else {
             mTwoPane = false;
         }
@@ -88,7 +102,12 @@ public class StepListActivity extends AppCompatActivity implements StepAdapter.L
         void onStepChanged(int stepId);
     }
 
-    public void setStepChangeHandler(StepListFragment.StepChangeHandler stepChangeHandler) {
+    public void setStepChangeHandler(StepActivity.StepChangeHandler stepChangeHandler) {
         this.stepChangeHandler = stepChangeHandler;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
