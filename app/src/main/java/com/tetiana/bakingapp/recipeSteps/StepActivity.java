@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.tetiana.bakingapp.R;
-import com.tetiana.bakingapp.ReadData;
+import com.tetiana.bakingapp.DataReader;
 import com.tetiana.bakingapp.model.Step;
 import com.tetiana.bakingapp.recipeIngredient.IngredientActivity;
 
@@ -55,8 +55,8 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
         });
 
         try {
-            ReadData readData = new ReadData(getApplicationContext());
-            steps = readData.getStepList(steps);
+            DataReader dataReader = new DataReader(getApplicationContext());
+            steps = dataReader.getStepList();
         } catch (IOException e) {
             e.printStackTrace();
         }

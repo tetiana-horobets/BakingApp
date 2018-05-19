@@ -38,7 +38,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.tetiana.bakingapp.R;
-import com.tetiana.bakingapp.ReadData;
+import com.tetiana.bakingapp.DataReader;
 import com.tetiana.bakingapp.model.Step;
 
 
@@ -71,8 +71,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         step_id = getActivity().getIntent().getIntExtra("stepID", 0);
 
         try {
-            ReadData readData = new ReadData(getActivity().getApplicationContext());
-            steps = readData.getStepList(steps);
+            DataReader dataReader = new DataReader(getActivity().getApplicationContext());
+            steps = dataReader.getStepList();
         } catch (IOException e) {
             e.printStackTrace();
         }

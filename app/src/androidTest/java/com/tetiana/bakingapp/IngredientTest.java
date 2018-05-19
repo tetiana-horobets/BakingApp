@@ -35,11 +35,6 @@ public class IngredientTest {
 
     @Test
     public void clickIngredientButton_OpenNewActivity(){
-        try {
-            Thread.sleep(5000); //wait 5 seconds before going on
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         onView(withId(R.id.ingredients))
                 .perform(click());

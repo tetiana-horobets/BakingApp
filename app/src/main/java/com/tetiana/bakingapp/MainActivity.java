@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         assignAppWidgetId();
         sendUpdateIntent(getApplication());
         try {
-            ReadData readData = new ReadData(this);
-            recipes = readData.getRecipe(recipes);
+            DataReader dataReader = new DataReader(this);
+            recipes = dataReader.getRecipe();
         } catch (IOException e) {
             e.printStackTrace();
         }

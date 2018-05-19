@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 
 import com.tetiana.bakingapp.R;
-import com.tetiana.bakingapp.ReadData;
+import com.tetiana.bakingapp.DataReader;
 import com.tetiana.bakingapp.model.Ingredient;
 
 import java.io.IOException;
@@ -34,8 +34,8 @@ public class RecipeIngredientFragment extends Fragment {
         super.onCreate(savedInstanceState);
         final Integer recipe_id = getActivity().getIntent().getIntExtra("recipeID", 0);
         try {
-            ReadData readData = new ReadData(getActivity().getApplicationContext());
-            ingredients = readData.getRecipe(recipe_id).getIngredients();
+            DataReader dataReader = new DataReader(getActivity().getApplicationContext());
+            ingredients = dataReader.getRecipe(recipe_id).getIngredients();
         } catch (IOException e) {
             e.printStackTrace();
         }

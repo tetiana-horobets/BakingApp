@@ -15,36 +15,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ReadData {
+public class DataReader {
     private RecipeRepository userRepository;
     private JsonReader reader;
 
-    public ReadData(Context myContext) throws IOException {
+    public DataReader(Context myContext) throws IOException {
         AssetManager assetManager = myContext.getAssets();
         InputStream inputStream = assetManager.open("baking.json");
         userRepository = new RecipeRepository(inputStream);
         reader = new JsonReader(new InputStreamReader(inputStream));
-
     }
 
-   public ArrayList<Step> getStepList(ArrayList<Step> steps){
-        try {
-            steps = userRepository.getStepList(reader);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return steps;
+   public ArrayList<Step> getStepList() throws IOException {
+       return userRepository.getStepList(reader);
     }
 
 
-  public ArrayList<Recipe> getRecipe(ArrayList<Recipe> recipes){
-        try {
-            recipes = userRepository.read(reader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return recipes;
+  public ArrayList<Recipe> getRecipe() throws IOException {
+           return userRepository.read(reader);
     }
 
   public Recipe getRecipe(Integer id) throws IOException {
