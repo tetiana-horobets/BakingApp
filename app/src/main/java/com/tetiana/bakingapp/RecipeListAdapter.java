@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.squareup.picasso.Picasso;
 import com.tetiana.bakingapp.model.Recipe;
 
 import java.util.ArrayList;
@@ -39,9 +41,18 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     public void onBindViewHolder(@NonNull RecipeListHolder holder, int position) {
         String title = recipes.get(position).getName();
         String servings = recipes.get(position).getServings();
+        String image = recipes.get(position).getImage();
 
         holder.recipeTitle.setText(title);
         holder.recipe_servings.setText(servings);
+        if (!image.equals("")){
+            Picasso.with(context.getApplicationContext())
+                    .load(image)
+                    .into( holder.recipeImage);
+        }else {
+            holder.recipeImage.setImageResource(R.mipmap.ic_recipe);
+        }
+
     }
 
     @NonNull
@@ -62,6 +73,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         TextView recipeTitle;
         @BindView(R.id.recipe_title)
         TextView recipe_servings;
+        @BindView(R.id.recipe_image)
+        ImageView recipeImage;
         RecipeListHolder(View itemView)
         {
             super(itemView);
