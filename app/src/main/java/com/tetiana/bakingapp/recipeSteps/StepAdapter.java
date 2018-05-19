@@ -12,6 +12,9 @@ import com.tetiana.bakingapp.model.Step;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
 
@@ -53,13 +56,15 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
     }
 
     class StepHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.step_number)
         TextView stepNumber;
+
+        @BindView(R.id.step_text)
         TextView stepText;
 
         StepHolder(View itemView) {
             super(itemView);
-            stepNumber = itemView.findViewById(R.id.step_number);
-            stepText = itemView.findViewById(R.id.step_text);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

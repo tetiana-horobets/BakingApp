@@ -17,12 +17,21 @@ import com.tetiana.bakingapp.recipeIngredient.IngredientActivity;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class StepActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
 
     private boolean mTwoPane;
     ArrayList<Step> steps = new ArrayList<>();
     private StepAdapter stepAdapter;
     private StepDetailFragment finalStepDetailFragment;
+
+    @BindView(R.id.ingredients)
+    Button ingredient;
+
+    @BindView(R.id.rv_step_list)
+    RecyclerView mRecyclerView;
 
     private StepActivity.StepChangeHandler stepChangeHandler = new StepActivity.StepChangeHandler() {
         @Override
@@ -33,9 +42,7 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
-
-        Button ingredient = (Button) findViewById(R.id.ingredients);
-        RecyclerView mRecyclerView = findViewById(R.id.rv_step_list);
+        ButterKnife.bind(this);
         final Integer recipe_id = getIntent().getIntExtra("recipeID", 0);
 
         ingredient.setOnClickListener(new View.OnClickListener() {

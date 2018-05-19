@@ -13,6 +13,9 @@ import com.tetiana.bakingapp.model.Recipe;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeListHolder> {
 
     private ArrayList<Recipe> recipes;
@@ -55,13 +58,14 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     }
 
     public class RecipeListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.servings_label)
         TextView recipeTitle;
+        @BindView(R.id.recipe_title)
         TextView recipe_servings;
         RecipeListHolder(View itemView)
         {
             super(itemView);
-            recipeTitle = itemView.findViewById(R.id.servings_label);
-            recipe_servings = itemView.findViewById(R.id.recipe_title);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

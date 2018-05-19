@@ -8,9 +8,6 @@ import com.tetiana.bakingapp.R;
 
 
 public class StepDetailsActivity extends AppCompatActivity {
-    boolean mTwoPane;
-    int id;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

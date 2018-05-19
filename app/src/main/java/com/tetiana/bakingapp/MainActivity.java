@@ -20,17 +20,23 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements RecipeListAdapter.ListItemClickListener {
     ArrayList<Recipe> recipes = new ArrayList<Recipe>();
     private RecipeListAdapter movieAdapter;
-    RecyclerView mRecyclerView;
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     public final static String RECIPE_ID = "widget_pref";
+
+    @BindView(R.id.rv_show_recipes_list)
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipes_list);
+        ButterKnife.bind(this);
         assignAppWidgetId();
         sendUpdateIntent(getApplication());
         try {
@@ -40,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
             e.printStackTrace();
         }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_show_recipes_list);
         movieAdapter = new RecipeListAdapter(this, recipes, this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,  new NumberOfColumns().numberOfColumns(this)));
         mRecyclerView.setAdapter(movieAdapter);
@@ -77,12 +82,10 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("ingredients", ingredients);
         editor.apply();
-
     }
 
     public void onRestored(Context context, int[] oldWidgetIds,
                            int[] newWidgetIds) {
-
     }
 
 }

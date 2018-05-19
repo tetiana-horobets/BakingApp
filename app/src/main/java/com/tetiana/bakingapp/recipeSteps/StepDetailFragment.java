@@ -48,17 +48,25 @@ import com.tetiana.bakingapp.model.Step;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class StepDetailFragment extends Fragment implements ExoPlayer.EventListener {
 
     ArrayList<Step> steps = new ArrayList<>();
     private int step_id;
     private SimpleExoPlayer player;
     String path;
-    SimpleExoPlayerView playerView;
 
     public void setStep_id(int step_id) {
         this.step_id = step_id;
     }
+
+    @BindView(R.id.step_full_text)
+    TextView stepText;
+
+    @BindView(R.id.playerView)
+    SimpleExoPlayerView playerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,14 +84,14 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.steps_detail, container, false);
+        View view =  inflater.inflate(R.layout.steps_detail, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        TextView stepText = view.findViewById(R.id.step_full_text);
         stepText.setText(steps.get(step_id).getDescription());
 
         path = steps.get(step_id).getVideoURL();
@@ -96,8 +104,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         LoadControl loadControl = new DefaultLoadControl();
         // 3. Create the player
         player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-
-        playerView = (SimpleExoPlayerView) view.findViewById(R.id.playerView);
         playerView.setPlayer(player);
         playerView.setKeepScreenOn(true);
         // Produces DataSource instances through which media data is loaded.

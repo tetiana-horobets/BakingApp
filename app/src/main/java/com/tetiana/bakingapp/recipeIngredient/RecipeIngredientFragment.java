@@ -17,12 +17,17 @@ import com.tetiana.bakingapp.model.Ingredient;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecipeIngredientFragment extends Fragment {
     private IngredientAdapter ingredientAdapter;
     ArrayList<Ingredient> ingredients = new ArrayList<>();
     public static RecipeIngredientFragment newInstance() {
         return new RecipeIngredientFragment();
     }
+    @BindView(R.id.rv_ingredient_list)
+    RecyclerView mRecyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,13 +46,14 @@ public class RecipeIngredientFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_ingredients_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_ingredients_list, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView mRecyclerView = view.findViewById(R.id.rv_ingredient_list);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(),  1));
         mRecyclerView.setAdapter(ingredientAdapter);
 

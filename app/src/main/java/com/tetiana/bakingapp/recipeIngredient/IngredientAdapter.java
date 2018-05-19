@@ -12,6 +12,9 @@ import com.tetiana.bakingapp.model.Ingredient;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientHolder>{
 
     private ArrayList<Ingredient> ingredients;
@@ -47,15 +50,16 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     }
 
     public class IngredientHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.ingredient)
         TextView recipeIngredientName;
+        @BindView(R.id.quantity)
         TextView recipeMeasure;
+        @BindView(R.id.measure)
         TextView recipeQuantity;
 
         public IngredientHolder(View itemView) {
             super(itemView);
-            recipeIngredientName = itemView.findViewById(R.id.ingredient);
-            recipeMeasure = itemView.findViewById(R.id.quantity);
-            recipeQuantity = itemView.findViewById(R.id.measure);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
