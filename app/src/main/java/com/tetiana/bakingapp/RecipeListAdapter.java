@@ -1,8 +1,7 @@
-package com.tetiana.bakingapp.recipeList;
+package com.tetiana.bakingapp;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.google.gson.Gson;
-import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.model.Recipe;
 
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
 
     private int clickedPosition;
 
-    public RecipeListAdapter(Context context, ArrayList<Recipe> movieList, ListItemClickListener listener)
+    RecipeListAdapter(Context context, ArrayList<Recipe> movieList, ListItemClickListener listener)
     {
         this.context = context;
         this.recipes = movieList;
@@ -36,7 +33,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     }
 
     @Override
-    public void onBindViewHolder(RecipeListHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecipeListHolder holder, int position) {
         String title = recipes.get(position).getName();
         String servings = recipes.get(position).getServings();
 
@@ -44,8 +41,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         holder.recipe_servings.setText(servings);
     }
 
+    @NonNull
     @Override
-    public RecipeListHolder onCreateViewHolder(ViewGroup viewGroup, int viewType)
+    public RecipeListHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType)
     {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recipe_list_item, viewGroup, false);
@@ -78,7 +76,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         return recipes.get(clickedPosition).getId();
     }
 
-    public Integer getClickedPosition() {
+    Integer getClickedPosition() {
         return clickedPosition;
     }
 }

@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.tetiana.bakingapp.model.Recipe;
-import com.tetiana.bakingapp.recipeList.RecipeListAdapter;
 import com.tetiana.bakingapp.recipeSteps.StepActivity;
 
 
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
             e.printStackTrace();
         }
 
-        mRecyclerView = findViewById(R.id.rv_show_recipes_list);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_show_recipes_list);
         movieAdapter = new RecipeListAdapter(this, recipes, this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,  new NumberOfColumns().numberOfColumns(this)));
         mRecyclerView.setAdapter(movieAdapter);
@@ -62,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lvList);
     }
-
-
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
