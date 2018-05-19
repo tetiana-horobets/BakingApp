@@ -10,23 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import com.google.gson.Gson;
 import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.recipeSteps.StepActivity;
-
-
 import java.io.IOException;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements RecipeListAdapter.ListItemClickListener {
     ArrayList<Recipe> recipes = new ArrayList<Recipe>();
     private RecipeListAdapter movieAdapter;
-    private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     public final static String RECIPE_ID = "widget_pref";
 
     @BindView(R.id.rv_show_recipes_list)
@@ -53,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
 
     private void assignAppWidgetId() {
         Bundle extras = getIntent().getExtras();
+        int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
         if (extras != null)
             appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);

@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/step_number"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp" />
@@ -25,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlCompat" />
@@ -44,6 +42,6 @@
         app:layout_constraintStart_toEndOf="@+id/step_text"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@mipmap/ic_keyboard_arrow_right_black_36dp"
-        tools:ignore="RtlCompat" />
+        tools:ignore="ContentDescription,RtlCompat" />
 </android.support.constraint.ConstraintLayout>
 

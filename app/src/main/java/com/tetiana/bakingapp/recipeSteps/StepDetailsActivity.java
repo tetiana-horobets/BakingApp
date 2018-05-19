@@ -3,9 +3,7 @@ package com.tetiana.bakingapp.recipeSteps;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-
 import com.tetiana.bakingapp.R;
-
 
 public class StepDetailsActivity extends AppCompatActivity {
 

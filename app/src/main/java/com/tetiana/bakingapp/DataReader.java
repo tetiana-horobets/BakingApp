@@ -1,21 +1,14 @@
 package com.tetiana.bakingapp;
 
-
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.JsonReader;
-
-
 import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
-
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataReader {
     private RecipeRepository userRepository;
@@ -32,7 +25,7 @@ public class DataReader {
        return userRepository.getStepList(reader);
     }
 
-  public ArrayList<Recipe> getRecipe() throws IOException {
+  ArrayList<Recipe> getRecipe() throws IOException {
            return userRepository.read(reader);
     }
 

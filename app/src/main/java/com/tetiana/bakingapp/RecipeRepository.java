@@ -13,15 +13,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class RecipeRepository {
+class RecipeRepository {
 
     private final InputStream inputStream;
     ArrayList<Step> steps = new ArrayList<>();
-    public RecipeRepository(InputStream inputStream) {
+    RecipeRepository(InputStream inputStream) {
         this.inputStream = inputStream;
     }
 
-    public Recipe findRecipeById(int recipeId) throws IOException {
+    Recipe findRecipeById(int recipeId) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(inputStream));
         ArrayList<Recipe> recipeArrayList = read(reader);
         for(Recipe recipe: recipeArrayList) {
@@ -32,7 +32,7 @@ public class RecipeRepository {
         return null;
     }
 
-    public ArrayList<Step> getStepList(JsonReader reader) throws IOException {
+    ArrayList<Step> getStepList(JsonReader reader) throws IOException {
         ArrayList<Step> steps = new ArrayList<>();
         reader.beginArray();
         while (reader.hasNext()) {
@@ -51,7 +51,7 @@ public class RecipeRepository {
         return steps;
     }
 
-     public ArrayList<Recipe> read(JsonReader reader) throws IOException {
+     ArrayList<Recipe> read(JsonReader reader) throws IOException {
         ArrayList<Recipe> recipes = new ArrayList<>();
         reader.beginArray();
         while (reader.hasNext()) {
@@ -93,7 +93,7 @@ public class RecipeRepository {
         return new Recipe(id, name, ingredients, steps, servings, image);
     }
 
-    ArrayList<Step> readStepArray(JsonReader reader) throws IOException {
+    private ArrayList<Step> readStepArray(JsonReader reader) throws IOException {
         ArrayList<Step> recipeSteps = new ArrayList<>();
         String id = null;
         String shortDescription = null;
@@ -127,7 +127,7 @@ public class RecipeRepository {
         return recipeSteps;
     }
 
-    public ArrayList<Ingredient> readIngredientArray(JsonReader reader) throws IOException {
+    private ArrayList<Ingredient> readIngredientArray(JsonReader reader) throws IOException {
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         String quantity = null;
         String measure = null;

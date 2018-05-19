@@ -1,6 +1,7 @@
 package com.tetiana.bakingapp.recipeSteps;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +22,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
     private List<Step> steps;
     private Context context;
     final private ListItemClickListener mOnClickListener;
-    int clickedPosition;
+    private int clickedPosition;
 
-
-    public StepAdapter(List<Step> steps, Context context, ListItemClickListener listener) {
+    StepAdapter(List<Step> steps, Context context, ListItemClickListener listener) {
         this.steps = steps;
         this.context = context;
         mOnClickListener = listener;
@@ -34,18 +34,18 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
         void onListItemClick(int clickedItemIndex);
     }
 
+    @NonNull
     @Override
-    public StepAdapter.StepHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StepAdapter.StepHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.step_list_item, parent, false);
         return new StepAdapter.StepHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(StepAdapter.StepHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StepAdapter.StepHolder holder, int position) {
         String number = steps.get(position).getId();
         String stepName = steps.get(position).getShortDescription();
-
         holder.stepNumber.setText(number);
         holder.stepText.setText(stepName);
     }
@@ -72,7 +72,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
         public void onClick(View v) {
             clickedPosition = getAdapterPosition();
             mOnClickListener.onListItemClick(clickedPosition);
-
         }
     }
 

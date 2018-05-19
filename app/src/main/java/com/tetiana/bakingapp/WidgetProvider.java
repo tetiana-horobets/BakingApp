@@ -23,9 +23,7 @@ public class WidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
 
-        for(int i = 0; i < appWidgetIds.length; i++) {
-
-            int widgetId = appWidgetIds[i];
+        for (int widgetId : appWidgetIds) {
 
             Intent intent = new Intent(context, WidgetService.class);
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);

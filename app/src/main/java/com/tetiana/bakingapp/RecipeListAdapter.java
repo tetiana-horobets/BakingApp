@@ -9,12 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.squareup.picasso.Picasso;
 import com.tetiana.bakingapp.model.Recipe;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -52,7 +49,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         }else {
             holder.recipeImage.setImageResource(R.mipmap.ic_recipe);
         }
-
     }
 
     @NonNull
@@ -63,6 +59,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         View view = inflater.inflate(R.layout.recipe_list_item, viewGroup, false);
         return new RecipeListHolder(view);
     }
+
     @Override
     public int getItemCount() {
         return (recipes == null) ? 0 : recipes.size();

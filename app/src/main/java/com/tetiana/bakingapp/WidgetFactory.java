@@ -16,11 +16,8 @@ import com.google.gson.reflect.TypeToken;
 import com.tetiana.bakingapp.model.Ingredient;
 import com.tetiana.bakingapp.model.Recipe;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
@@ -29,7 +26,7 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private ArrayList<Ingredient> ingredients = new ArrayList<>();
     private Context mContext;
 
-    public WidgetFactory(Context context, Intent intent) {
+    WidgetFactory(Context context, Intent intent) {
         mContext = context;
     }
 
