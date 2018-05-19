@@ -22,7 +22,7 @@
         <activity android:name=".recipeIngredient.IngredientActivity" />
 
         <activity android:name=".recipeSteps.StepDetailsActivity"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
         </activity>
 
         <service
