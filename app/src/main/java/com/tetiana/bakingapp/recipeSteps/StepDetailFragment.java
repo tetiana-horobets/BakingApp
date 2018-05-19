@@ -2,11 +2,9 @@ package com.tetiana.bakingapp.recipeSteps;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,7 +31,6 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -56,7 +53,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     ArrayList<Step> steps = new ArrayList<>();
     private int step_id;
     private SimpleExoPlayer player;
-    String path;
+    String videoURL;
 
     public void setStep_id(int step_id) {
         this.step_id = step_id;
@@ -83,7 +80,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.steps_detail, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -93,8 +90,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         stepText.setText(steps.get(step_id).getDescription());
-
-        path = steps.get(step_id).getVideoURL();
+        videoURL = steps.get(step_id).getVideoURL();
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
@@ -102,76 +98,62 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                 new DefaultTrackSelector(videoTrackSelectionFactory);
 
         LoadControl loadControl = new DefaultLoadControl();
-        // 3. Create the player
         player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
         playerView.setPlayer(player);
         playerView.setKeepScreenOn(true);
-        // Produces DataSource instances through which media data is loaded.
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getActivity().getApplicationContext(), "Baking"));
 
-        // Produces Extractor instances for parsing the media data.
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
 
-        // This is the MediaSource representing the media to be played.
-        if (!path.equals("")){
-            MediaSource videoSource = new ExtractorMediaSource(Uri.parse(path),
+        if (!videoURL.equals("")){
+            MediaSource videoSource = new ExtractorMediaSource(Uri.parse(videoURL),
                     dataSourceFactory, extractorsFactory, null, null);
-            // Prepare the player with the source.
             player.addListener(this);
             player.prepare(videoSource);
             playerView.requestFocus();
             player.setPlayWhenReady(true);
         }else{
             playerView.setDefaultArtwork(BitmapFactory.decodeResource
-                    (getResources(), R.mipmap.ic_recipe));
+                    (getResources(), R.mipmap.baseline_videocam_off_white_48));
         }
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
         if (player != null) {
-            player.setPlayWhenReady(false); //to pause a video because now our video player is not in focus
+            player.setPlayWhenReady(false);
         }
     }
 
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
-
     }
 
     @Override
     public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
     }
 
     @Override
     public void onLoadingChanged(boolean isLoading) {
-
     }
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         switch (playbackState) {
             case ExoPlayer.STATE_BUFFERING:
-                //You can use progress dialog to show user that video is preparing or buffering so please wait
                 break;
             case ExoPlayer.STATE_IDLE:
-                //idle state
                 break;
             case ExoPlayer.STATE_READY:
-                // dismiss your dialog here because our video is ready to play now
                 break;
             case ExoPlayer.STATE_ENDED:
-                // do your processing after ending of video
                 break;
         }
     }
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
-        // show user that something went wrong. I am showing dialog but you can use your way
         AlertDialog.Builder adb = new AlertDialog.Builder(getActivity().getApplicationContext());
         adb.setTitle("Could not able to stream video");
         adb.setMessage("It seems that something is going wrong.\nPlease try again.");
@@ -179,7 +161,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                getActivity().finish(); // take out user from this activity. you can skip this
+                getActivity().finish();
             }
         });
         AlertDialog ad = adb.create();
@@ -188,30 +170,17 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     @Override
     public void onPositionDiscontinuity() {
-        //Video is not streaming properly
         Log.d("Mayur", "Discontinuity");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        player.release();   //it is important to release a player
+        player.release();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-//        int orientation = getResources().getConfiguration().orientation;
-//        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
-//        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
-//        }
     }
 }
