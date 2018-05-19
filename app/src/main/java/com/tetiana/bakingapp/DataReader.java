@@ -32,7 +32,6 @@ public class DataReader {
        return userRepository.getStepList(reader);
     }
 
-
   public ArrayList<Recipe> getRecipe() throws IOException {
            return userRepository.read(reader);
     }

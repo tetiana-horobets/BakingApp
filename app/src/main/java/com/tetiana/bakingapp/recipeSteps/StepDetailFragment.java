@@ -54,6 +54,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private int step_id;
     private SimpleExoPlayer player;
     String videoURL;
+    String thumbnailURL;
 
     public void setStep_id(int step_id) {
         this.step_id = step_id;
@@ -91,6 +92,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         super.onViewCreated(view, savedInstanceState);
         stepText.setText(steps.get(step_id).getDescription());
         videoURL = steps.get(step_id).getVideoURL();
+        thumbnailURL = steps.get(step_id).getThumbnailURL();
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         TrackSelection.Factory videoTrackSelectionFactory =
                 new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
@@ -112,7 +114,14 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             player.prepare(videoSource);
             playerView.requestFocus();
             player.setPlayWhenReady(true);
-        }else{
+        }else if (!thumbnailURL.equals("")){
+            MediaSource videoSource = new ExtractorMediaSource(Uri.parse(thumbnailURL),
+                    dataSourceFactory, extractorsFactory, null, null);
+            player.addListener(this);
+            player.prepare(videoSource);
+            playerView.requestFocus();
+            player.setPlayWhenReady(true);
+        }else {
             playerView.setDefaultArtwork(BitmapFactory.decodeResource
                     (getResources(), R.mipmap.baseline_videocam_off_white_48));
         }

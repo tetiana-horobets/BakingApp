@@ -87,5 +87,4 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
     public void onRestored(Context context, int[] oldWidgetIds,
                            int[] newWidgetIds) {
     }
-
 }
