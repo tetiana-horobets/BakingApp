@@ -100,6 +100,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                 new DefaultTrackSelector(videoTrackSelectionFactory);
 
         LoadControl loadControl = new DefaultLoadControl();
+        loadControl.shouldStartPlayback(0, false);
+
         player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
         playerView.setPlayer(player);
         playerView.setKeepScreenOn(true);
