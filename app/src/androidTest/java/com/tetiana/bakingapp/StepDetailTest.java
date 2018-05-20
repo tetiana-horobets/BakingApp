@@ -36,11 +36,6 @@ public class StepDetailTest {
 
     @Test
     public void clickRecyclerViewItem_OpenDetail() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         onView(withId(R.id.rv_step_list))
                 .perform(actionOnItemAtPosition(0, click()));
         onView(withId(R.id.frame_layout_step)).check(matches(isDisplayed()));

@@ -41,7 +41,6 @@ public class RecipeIngredientFragment extends Fragment {
             e.printStackTrace();
         }
         ingredientAdapter = new IngredientAdapter(ingredients, getActivity().getApplicationContext());
-
     }
 
     @Nullable

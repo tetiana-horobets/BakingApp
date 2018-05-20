@@ -20,6 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class IngredientTest {
+
     @Rule
     public ActivityTestRule<StepActivity> mActivityRule =
             new ActivityTestRule<StepActivity>(StepActivity.class) {
@@ -34,8 +35,7 @@ public class IngredientTest {
             };
 
     @Test
-    public void clickIngredientButton_OpenNewActivity(){
-
+    public void clickIngredientButton_OpenNewActivity() {
         onView(withId(R.id.ingredients))
                 .perform(click());
 

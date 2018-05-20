@@ -3,13 +3,9 @@ package com.tetiana.bakingapp.model;
 public class Step {
 
     private String id;
-
     private String shortDescription;
-
     private String description;
-
     private String videoURL;
-
     private String thumbnailURL;
 
     public Step(String id, String shortDescription, String description, String videoURL, String thumbnailURL) {

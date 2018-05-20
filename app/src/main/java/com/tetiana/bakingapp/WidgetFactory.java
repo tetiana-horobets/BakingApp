@@ -16,7 +16,6 @@ import com.google.gson.reflect.TypeToken;
 import com.tetiana.bakingapp.model.Ingredient;
 import com.tetiana.bakingapp.model.Recipe;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
@@ -26,7 +25,7 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     private ArrayList<Ingredient> ingredients = new ArrayList<>();
     private Context mContext;
 
-    WidgetFactory(Context context, Intent intent) {
+    WidgetFactory(Context context) {
         mContext = context;
     }
 
@@ -43,7 +42,6 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
     public long getItemId(int position) {
         return ID_CONSTANT + position;
     }
-
 
     @Override
     public RemoteViews getLoadingView() {
@@ -79,9 +77,6 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
         return true;
     }
 
-    public static Object fromJson(String jsonString, Type type) {
-        return new Gson().fromJson(jsonString, type);
-    }
     @Override
     public void onDataSetChanged() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -92,7 +87,7 @@ public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
                 .create();
         String json = preferences.getString("ingredients", "");
 
-        if (!json.equals("")) {
+        if (!json.isEmpty()) {
             Recipe recipe = gson.fromJson(json, new TypeToken<Recipe>() {
             }.getType());
             ingredients = recipe.getIngredients();

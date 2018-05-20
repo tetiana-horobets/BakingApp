@@ -44,13 +44,14 @@ import com.tetiana.bakingapp.model.Step;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StepDetailFragment extends Fragment implements ExoPlayer.EventListener {
 
-    ArrayList<Step> steps = new ArrayList<>();
+    List<Step> steps = new ArrayList<>();
     private int step_id;
     private SimpleExoPlayer player;
     String videoURL;

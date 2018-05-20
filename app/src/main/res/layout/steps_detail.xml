@@ -9,9 +9,8 @@
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/playerView"
-        android:layout_width="353dp"
-        android:layout_height="219dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"

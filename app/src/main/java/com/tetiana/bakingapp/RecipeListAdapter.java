@@ -11,19 +11,19 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tetiana.bakingapp.model.Recipe;
-import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.RecipeListHolder> {
 
-    private ArrayList<Recipe> recipes;
+    private List<Recipe> recipes;
     final private ListItemClickListener mOnClickListener;
     private Context context;
-
     private int clickedPosition;
 
-    RecipeListAdapter(Context context, ArrayList<Recipe> movieList, ListItemClickListener listener)
+    RecipeListAdapter(Context context, List<Recipe> movieList, ListItemClickListener listener)
     {
         this.context = context;
         this.recipes = movieList;
@@ -39,7 +39,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         String title = recipes.get(position).getName();
         String servings = recipes.get(position).getServings();
         String image = recipes.get(position).getImage();
-
         holder.recipeTitle.setText(title);
         holder.recipe_servings.setText(servings);
         if (!image.equals("")){

@@ -16,19 +16,15 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class RecipesListTest {
-        @Rule
-    public ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule(MainActivity.class);
 
-        @Test
-        public void clickRecyclerViewItem_PassesRecipeNameToNextActivity() {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            onView(withId(R.id.rv_show_recipes_list))
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule =
+            new ActivityTestRule<MainActivity>(MainActivity.class);
+
+    @Test
+    public void clickRecyclerViewItem_PassesRecipeNameToNextActivity() {
+        onView(withId(R.id.rv_show_recipes_list))
                 .perform(actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.rv_step_list)).check(matches(isDisplayed()));
-        }
+        onView(withId(R.id.rv_step_list)).check(matches(isDisplayed()));
+    }
 }

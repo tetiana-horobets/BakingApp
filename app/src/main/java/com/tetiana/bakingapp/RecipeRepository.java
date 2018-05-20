@@ -3,7 +3,6 @@ package com.tetiana.bakingapp;
 import android.util.JsonReader;
 import android.util.JsonToken;
 
-
 import com.tetiana.bakingapp.model.Ingredient;
 import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 class RecipeRepository {
 
     private final InputStream inputStream;
-    ArrayList<Step> steps = new ArrayList<>();
     RecipeRepository(InputStream inputStream) {
         this.inputStream = inputStream;
     }
@@ -106,18 +104,25 @@ class RecipeRepository {
             reader.beginObject();
             while (reader.hasNext()) {
                 String next = reader.nextName();
-                if (next.equals("id")) {
-                    id = reader.nextString();
-                } else if (next.equals("shortDescription")) {
-                    shortDescription = reader.nextString();
-                } else if (next.equals("description")) {
-                    description = reader.nextString();
-                } else if (next.equals("videoURL")) {
-                    videoURL = reader.nextString();
-                } else if (next.equals("thumbnailURL")) {
-                    thumbnailURL = reader.nextString();
-                } else {
-                    reader.skipValue();
+                switch (next) {
+                    case "id":
+                        id = reader.nextString();
+                        break;
+                    case "shortDescription":
+                        shortDescription = reader.nextString();
+                        break;
+                    case "description":
+                        description = reader.nextString();
+                        break;
+                    case "videoURL":
+                        videoURL = reader.nextString();
+                        break;
+                    case "thumbnailURL":
+                        thumbnailURL = reader.nextString();
+                        break;
+                    default:
+                        reader.skipValue();
+                        break;
                 }
             }
             reader.endObject();
@@ -138,21 +143,25 @@ class RecipeRepository {
             reader.beginObject();
             while (reader.hasNext()) {
                 String next = reader.nextName();
-                if (next.equals("quantity")) {
-                    quantity = reader.nextString();
-                } else if (next.equals("measure")) {
-                    measure = reader.nextString();
-                } else if (next.equals("ingredient")) {
-                    ingredient = reader.nextString();
-                } else {
-                    reader.skipValue();
+                switch (next) {
+                    case "quantity":
+                        quantity = reader.nextString();
+                        break;
+                    case "measure":
+                        measure = reader.nextString();
+                        break;
+                    case "ingredient":
+                        ingredient = reader.nextString();
+                        break;
+                    default:
+                        reader.skipValue();
+                        break;
                 }
             }
             reader.endObject();
             ingredients.add(new Ingredient(quantity, measure, ingredient));
         }
         reader.endArray();
-        System.out.println(1);
         return ingredients;
     }
 }

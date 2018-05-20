@@ -4,18 +4,13 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.widget.RemoteViews;
-
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class WidgetProvider extends AppWidgetProvider {
 
-    public static final String ACTION_VIEW_DETAILS =
-            "com.company.android.ACTION_VIEW_DETAILS";
     public static final String EXTRA_ITEM =
             "com.company.android.CollectionWidgetProvider.EXTRA_ITEM";
 
@@ -34,10 +29,6 @@ public class WidgetProvider extends AppWidgetProvider {
             widgetView.setEmptyView(R.id.lvList, R.id.tvUpdate);
 
             appWidgetManager.updateAppWidget(widgetId, widgetView);
-
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            int id = preferences.getInt(MainActivity.RECIPE_ID, 0);
-
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }

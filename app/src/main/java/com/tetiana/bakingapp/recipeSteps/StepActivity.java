@@ -16,6 +16,7 @@ import com.tetiana.bakingapp.recipeIngredient.IngredientActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public class StepActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
 
     private boolean mTwoPane;
-    ArrayList<Step> steps = new ArrayList<>();
+    List<Step> steps = new ArrayList<>();
     private StepAdapter stepAdapter;
     private StepDetailFragment finalStepDetailFragment;
 

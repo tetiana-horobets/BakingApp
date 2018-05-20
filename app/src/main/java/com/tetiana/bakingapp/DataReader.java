@@ -3,16 +3,18 @@ package com.tetiana.bakingapp;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.JsonReader;
+
 import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DataReader {
-    private RecipeRepository userRepository;
-    private JsonReader reader;
+    private final RecipeRepository userRepository;
+    private final JsonReader reader;
 
     public DataReader(Context myContext) throws IOException {
         AssetManager assetManager = myContext.getAssets();
@@ -21,15 +23,15 @@ public class DataReader {
         reader = new JsonReader(new InputStreamReader(inputStream));
     }
 
-   public ArrayList<Step> getStepList() throws IOException {
-       return userRepository.getStepList(reader);
+    public List<Step> getStepList() throws IOException {
+        return userRepository.getStepList(reader);
     }
 
-  ArrayList<Recipe> getRecipe() throws IOException {
-           return userRepository.read(reader);
+    List<Recipe> getRecipe() throws IOException {
+        return userRepository.read(reader);
     }
 
-  public Recipe getRecipe(Integer id) throws IOException {
+    public Recipe getRecipe(Integer id) throws IOException {
         return userRepository.findRecipeById(id);
     }
 }

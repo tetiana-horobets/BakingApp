@@ -1,6 +1,5 @@
 package com.tetiana.bakingapp;
 
-
 import android.app.Activity;
 import android.util.DisplayMetrics;
 

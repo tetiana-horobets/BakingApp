@@ -31,10 +31,6 @@ public class Recipe {
         return ingredients;
     }
 
-    public ArrayList<Step> getSteps() {
-        return steps;
-    }
-
     public String getServings() {
         return servings;
     }

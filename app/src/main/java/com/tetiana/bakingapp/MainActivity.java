@@ -15,13 +15,14 @@ import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.recipeSteps.StepActivity;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements RecipeListAdapter.ListItemClickListener {
-    ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+    List<Recipe> recipes = new ArrayList<>();
     private RecipeListAdapter movieAdapter;
-    public final static String RECIPE_ID = "widget_pref";
 
     @BindView(R.id.rv_show_recipes_list)
     RecyclerView mRecyclerView;
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         if (extras != null)
             appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
-
     }
 
     public void sendUpdateIntent(Context context)
@@ -77,9 +77,5 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("ingredients", ingredients);
         editor.apply();
-    }
-
-    public void onRestored(Context context, int[] oldWidgetIds,
-                           int[] newWidgetIds) {
     }
 }

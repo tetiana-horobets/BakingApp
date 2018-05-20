@@ -5,9 +5,10 @@ import android.content.res.Configuration;
 import android.widget.RemoteViewsService;
 
 public class WidgetService extends RemoteViewsService {
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new WidgetFactory(getApplicationContext(), intent);
+        return new WidgetFactory(getApplicationContext());
     }
 
     @Override
