@@ -59,6 +59,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     String thumbnailURL;
     private long playerPosition = C.TIME_UNSET;
     private static final String PLAYER_POSITION_KEY = "position";
+    private boolean playWhenReady;
 
     public void setStep_id(int step_id) {
         this.step_id = step_id;
@@ -106,6 +107,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         }else {
             step_id = savedInstanceState.getInt("step_id");
             playerPosition = savedInstanceState.getLong(PLAYER_POSITION_KEY, C.TIME_UNSET);
+            playWhenReady = savedInstanceState.getBoolean("playWhenReady");
             loading(step_id);
         }
     }
@@ -147,7 +149,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             if (playerPosition != C.TIME_UNSET) {
                 player.seekTo(playerPosition);
             }
-            player.setPlayWhenReady(true);
+            player.setPlayWhenReady(playWhenReady);
             if (videoURL == null || videoURL.isEmpty()) {
                 playerView.setDefaultArtwork(BitmapFactory.decodeResource
                         (getResources(), R.mipmap.baseline_videocam_off_white_48));
@@ -233,11 +235,13 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         super.onSaveInstanceState(outState);
         outState.putInt("step_id", step_id);
         outState.putLong(PLAYER_POSITION_KEY, playerPosition);
+        outState.putBoolean("playWhenReady", playWhenReady);
     }
 
     private void releasePlayer() {
         if (player != null) {
             playerPosition = player.getCurrentPosition();
+            playWhenReady = player.getPlayWhenReady();
             player.stop();
             player.release();
             player = null;
