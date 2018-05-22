@@ -39,8 +39,8 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.DataReader;
+import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.model.Step;
 
 import java.io.IOException;
@@ -71,11 +71,11 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @BindView(R.id.playerView)
     SimpleExoPlayerView playerView;
 
-//    @BindView(R.id.previous_step)
-//    Button previousStep;
-//
-//    @BindView(R.id.next_step)
-//    Button nextStep;
+    @BindView(R.id.previous_step)
+    Button previousStep;
+
+    @BindView(R.id.next_step)
+    Button nextStep;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,18 +93,40 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.steps_detail, container, false);
+        View view = inflater.inflate(R.layout.steps_detail, container, false);
         ButterKnife.bind(this, view);
+
+        previousStep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = step_id - 1;
+                if (position >= 0) {
+                    loading(position);
+                    step_id = position;
+                }
+            }
+        });
+
+        nextStep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = step_id + 1;
+                if (position < steps.size() - 1) {
+                    loading(position);
+                    step_id = position;
+                }
+            }
+        });
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             loading(step_id);
             player.seekToDefaultPosition();
-        }else {
+        } else {
             step_id = savedInstanceState.getInt("step_id");
             playerPosition = savedInstanceState.getLong(PLAYER_POSITION_KEY, C.TIME_UNSET);
             playWhenReady = savedInstanceState.getBoolean("playWhenReady");
@@ -115,10 +137,9 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
-    public void prepareVideo(String videoURL){
+    public void prepareVideo(String videoURL) {
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getActivity().getApplicationContext(), "Baking"));
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         MediaSource videoSource = new ExtractorMediaSource(Uri.parse(videoURL),
@@ -129,12 +150,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         player.setPlayWhenReady(true);
     }
 
-    public void loading(int step_id){
+    public void loading(int step_id) {
         stepText.setText(steps.get(step_id).getDescription());
         videoURL = steps.get(step_id).getVideoURL();
         thumbnailURL = steps.get(step_id).getThumbnailURL();
-        if (player == null) {
-
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelection.Factory videoTrackSelectionFactory =
                     new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
@@ -150,14 +169,14 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
                 player.seekTo(playerPosition);
             }
             player.setPlayWhenReady(playWhenReady);
-            if (videoURL == null || videoURL.isEmpty()) {
-                playerView.setDefaultArtwork(BitmapFactory.decodeResource
-                        (getResources(), R.mipmap.baseline_videocam_off_white_48));
-            } else if (!videoURL.isEmpty()) {
-                prepareVideo(videoURL);
-            } else if (!thumbnailURL.isEmpty()) {
-                prepareVideo(thumbnailURL);
-            }
+
+        if (videoURL == null || videoURL.isEmpty()) {
+            playerView.setDefaultArtwork(BitmapFactory.decodeResource
+                    (getResources(), R.mipmap.baseline_videocam_off_white_48));
+        } else if (!videoURL.isEmpty()) {
+            prepareVideo(videoURL);
+        } else if (!thumbnailURL.isEmpty()) {
+            prepareVideo(thumbnailURL);
         }
 
     }
