@@ -1,7 +1,8 @@
 package com.tetiana.bakingapp.recipeSteps;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import android.os.Parcelable;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     List<Step> steps = new ArrayList<>();
     private StepAdapter stepAdapter;
     private StepDetailFragment finalStepDetailFragment;
+    RecyclerView.LayoutManager layoutManager;
+    Parcelable mListState;
 
     @BindView(R.id.ingredients)
     Button ingredient;
@@ -63,13 +66,14 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
             e.printStackTrace();
         }
         stepAdapter = new StepAdapter(steps, getApplicationContext(), this);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        layoutManager = new GridLayoutManager(this, 1);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(stepAdapter);
 
         if (findViewById(R.id.lend_layout) != null){
             mTwoPane = true;
             finalStepDetailFragment = new StepDetailFragment();
-            if (savedInstanceState == null){
+
                 setStepChangeHandler(new StepActivity.StepChangeHandler() {
                     @Override
                     public void onStepChanged(int stepId) {
@@ -81,13 +85,18 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
                                 .commit();
                     }
                 });
-            }else {
-                //finalStepDetailFragment  = (StepDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
-            }
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_layout_step, finalStepDetailFragment)
-                    .commit();
+                if (savedInstanceState != null){
+                    finalStepDetailFragment  = (StepDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_layout_step, finalStepDetailFragment, "MY_FRAGMENT_TAG")
+                            .commit();
+                }else {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_layout_step, finalStepDetailFragment, "MY_FRAGMENT_TAG")
+                            .commit();
+                }
         }else {
             mTwoPane = false;
         }
@@ -116,6 +125,26 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        getSupportFragmentManager().putFragment(outState, "myFragmentName", finalStepDetailFragment);
+        mListState = layoutManager.onSaveInstanceState();
+        outState.putParcelable("LIST_STATE_KEY", mListState);
+        if (findViewById(R.id.lend_layout) != null){
+            getSupportFragmentManager().putFragment(outState, "myFragmentName", finalStepDetailFragment);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable("LIST_STATE_KEY");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mListState != null) {
+            layoutManager.onRestoreInstanceState(mListState);
+        }
     }
 }
