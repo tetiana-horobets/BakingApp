@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -55,6 +57,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private SimpleExoPlayer player;
     String videoURL;
     String thumbnailURL;
+    private long playerPosition = C.TIME_UNSET;
+    private static final String PLAYER_POSITION_KEY = "position";
 
     public void setStep_id(int step_id) {
         this.step_id = step_id;
@@ -65,6 +69,12 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
 
     @BindView(R.id.playerView)
     SimpleExoPlayerView playerView;
+
+//    @BindView(R.id.previous_step)
+//    Button previousStep;
+//
+//    @BindView(R.id.next_step)
+//    Button nextStep;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,8 +102,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null){
             loading(step_id);
+            player.seekToDefaultPosition();
         }else {
             step_id = savedInstanceState.getInt("step_id");
+            playerPosition = savedInstanceState.getLong(PLAYER_POSITION_KEY, C.TIME_UNSET);
             loading(step_id);
         }
     }
@@ -103,46 +115,49 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         super.onViewCreated(view, savedInstanceState);
 
     }
+
+    public void prepareVideo(String videoURL){
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getActivity().getApplicationContext(), "Baking"));
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        MediaSource videoSource = new ExtractorMediaSource(Uri.parse(videoURL),
+                dataSourceFactory, extractorsFactory, null, null);
+        player.addListener(this);
+        player.prepare(videoSource);
+        playerView.requestFocus();
+        player.setPlayWhenReady(true);
+    }
+
     public void loading(int step_id){
         stepText.setText(steps.get(step_id).getDescription());
         videoURL = steps.get(step_id).getVideoURL();
         thumbnailURL = steps.get(step_id).getThumbnailURL();
+        if (player == null) {
 
+            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+            TrackSelection.Factory videoTrackSelectionFactory =
+                    new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
+            TrackSelector trackSelector =
+                    new DefaultTrackSelector(videoTrackSelectionFactory);
 
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory =
-                new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector =
-                new DefaultTrackSelector(videoTrackSelectionFactory);
+            LoadControl loadControl = new DefaultLoadControl();
+            loadControl.shouldStartPlayback(0, false);
 
-        LoadControl loadControl = new DefaultLoadControl();
-        loadControl.shouldStartPlayback(0, false);
-
-        player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-        playerView.setPlayer(player);
-        playerView.setKeepScreenOn(true);
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getActivity().getApplicationContext(), "Baking"));
-
-        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-
-        if (!videoURL.equals("")){
-            MediaSource videoSource = new ExtractorMediaSource(Uri.parse(videoURL),
-                    dataSourceFactory, extractorsFactory, null, null);
-            player.addListener(this);
-            player.prepare(videoSource);
-            playerView.requestFocus();
+            player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+            playerView.setPlayer(player);
+            if (playerPosition != C.TIME_UNSET) {
+                player.seekTo(playerPosition);
+            }
             player.setPlayWhenReady(true);
-        }else if (!thumbnailURL.equals("")){
-            MediaSource videoSource = new ExtractorMediaSource(Uri.parse(thumbnailURL),
-                    dataSourceFactory, extractorsFactory, null, null);
-            player.addListener(this);
-            player.prepare(videoSource);
-            playerView.requestFocus();
-            player.setPlayWhenReady(true);
-        }else {
-            playerView.setDefaultArtwork(BitmapFactory.decodeResource
-                    (getResources(), R.mipmap.baseline_videocam_off_white_48));
+            if (videoURL == null || videoURL.isEmpty()) {
+                playerView.setDefaultArtwork(BitmapFactory.decodeResource
+                        (getResources(), R.mipmap.baseline_videocam_off_white_48));
+            } else if (!videoURL.isEmpty()) {
+                prepareVideo(videoURL);
+            } else if (!thumbnailURL.isEmpty()) {
+                prepareVideo(thumbnailURL);
+            }
         }
+
     }
 
     @Override
@@ -151,6 +166,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         if (player != null) {
             player.setPlayWhenReady(false);
         }
+        releasePlayer();
     }
 
     @Override
@@ -203,12 +219,28 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        player.release();
+        releasePlayer();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("step_id", step_id);
+        outState.putLong(PLAYER_POSITION_KEY, playerPosition);
+    }
+
+    private void releasePlayer() {
+        if (player != null) {
+            playerPosition = player.getCurrentPosition();
+            player.stop();
+            player.release();
+            player = null;
+        }
     }
 }
