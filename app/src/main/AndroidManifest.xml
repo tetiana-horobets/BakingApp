@@ -3,6 +3,7 @@
     package="com.tetiana.bakingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <application
         android:allowBackup="true"
@@ -11,8 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenLayout|screenSize">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,8 +21,7 @@
         </activity>
         <activity android:name=".recipeIngredient.IngredientActivity" />
 
-        <activity android:name=".recipeSteps.StepDetailsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
+        <activity android:name=".recipeSteps.StepDetailsActivity">
         </activity>
 
         <service
@@ -39,8 +38,7 @@
                 android:resource="@xml/baking_widget_provide_info" />
         </receiver>
 
-        <activity android:name=".recipeSteps.StepActivity"
-            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".recipeSteps.StepActivity" />
     </application>
 
 </manifest>

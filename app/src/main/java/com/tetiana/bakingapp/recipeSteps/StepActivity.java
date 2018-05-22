@@ -1,6 +1,7 @@
 package com.tetiana.bakingapp.recipeSteps;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -81,13 +82,11 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
                     }
                 });
             }else {
-                finalStepDetailFragment = (StepDetailFragment) getSupportFragmentManager()
-                        .findFragmentByTag("MY_FRAGMENT_TAG");
-
+                //finalStepDetailFragment  = (StepDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
             }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.frame_layout_step, finalStepDetailFragment, "MY_FRAGMENT_TAG")
+                    .replace(R.id.frame_layout_step, finalStepDetailFragment)
                     .commit();
         }else {
             mTwoPane = false;
@@ -117,5 +116,6 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+//        getSupportFragmentManager().putFragment(outState, "myFragmentName", finalStepDetailFragment);
     }
 }
