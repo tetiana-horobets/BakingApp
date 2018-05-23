@@ -147,7 +147,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         player.addListener(this);
         player.prepare(videoSource);
         playerView.requestFocus();
-        player.setPlayWhenReady(true);
     }
 
     public void loading(int step_id) {
@@ -168,7 +167,8 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             if (playerPosition != C.TIME_UNSET) {
                 player.seekTo(playerPosition);
             }
-            player.setPlayWhenReady(playWhenReady);
+
+                player.setPlayWhenReady(playWhenReady);
 
         if (videoURL == null || videoURL.isEmpty()) {
             playerView.setDefaultArtwork(BitmapFactory.decodeResource
@@ -178,7 +178,6 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         } else if (!thumbnailURL.isEmpty()) {
             prepareVideo(thumbnailURL);
         }
-
     }
 
     @Override
