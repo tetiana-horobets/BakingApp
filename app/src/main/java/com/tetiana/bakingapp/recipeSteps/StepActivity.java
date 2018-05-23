@@ -31,6 +31,9 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     private StepDetailFragment finalStepDetailFragment;
     RecyclerView.LayoutManager layoutManager;
     Parcelable mListState;
+    private static final String LIST_STATE_KEY = "list_state_key";
+    private static final String MY_FRAGMENT_TAG = "my_fragment_tag";
+    private static final String FRAGMENT = "fragment";
 
     @BindView(R.id.ingredients)
     Button ingredient;
@@ -86,15 +89,15 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
                     }
                 });
                 if (savedInstanceState != null){
-                    finalStepDetailFragment  = (StepDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState, "myFragmentName");
+                    finalStepDetailFragment  = (StepDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState, FRAGMENT);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.frame_layout_step, finalStepDetailFragment, "MY_FRAGMENT_TAG")
+                            .replace(R.id.frame_layout_step, finalStepDetailFragment, MY_FRAGMENT_TAG)
                             .commit();
                 }else {
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.frame_layout_step, finalStepDetailFragment, "MY_FRAGMENT_TAG")
+                            .replace(R.id.frame_layout_step, finalStepDetailFragment, MY_FRAGMENT_TAG)
                             .commit();
                 }
         }else {
@@ -126,9 +129,9 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mListState = layoutManager.onSaveInstanceState();
-        outState.putParcelable("LIST_STATE_KEY", mListState);
+        outState.putParcelable(LIST_STATE_KEY, mListState);
         if (findViewById(R.id.lend_layout) != null){
-            getSupportFragmentManager().putFragment(outState, "myFragmentName", finalStepDetailFragment);
+            getSupportFragmentManager().putFragment(outState, FRAGMENT, finalStepDetailFragment);
         }
     }
 
@@ -136,7 +139,7 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if(savedInstanceState != null)
-            mListState = savedInstanceState.getParcelable("LIST_STATE_KEY");
+            mListState = savedInstanceState.getParcelable(LIST_STATE_KEY);
     }
 
     @Override

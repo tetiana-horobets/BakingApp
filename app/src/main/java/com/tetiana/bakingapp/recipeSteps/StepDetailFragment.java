@@ -147,6 +147,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         player.addListener(this);
         player.prepare(videoSource);
         playerView.requestFocus();
+        player.setPlayWhenReady(playWhenReady);
     }
 
     public void loading(int step_id) {
@@ -166,9 +167,10 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             playerView.setPlayer(player);
             if (playerPosition != C.TIME_UNSET) {
                 player.seekTo(playerPosition);
-            }
 
+            }
                 player.setPlayWhenReady(playWhenReady);
+
 
         if (videoURL == null || videoURL.isEmpty()) {
             playerView.setDefaultArtwork(BitmapFactory.decodeResource
@@ -178,15 +180,16 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         } else if (!thumbnailURL.isEmpty()) {
             prepareVideo(thumbnailURL);
         }
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
         if (player != null) {
-            player.setPlayWhenReady(false);
+            player.setPlayWhenReady(playWhenReady);
         }
-        releasePlayer();
+       releasePlayer();
     }
 
     @Override
@@ -245,13 +248,14 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onStop() {
         super.onStop();
-        releasePlayer();
+       releasePlayer();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("step_id", step_id);
+        releasePlayer();
         outState.putLong(PLAYER_POSITION_KEY, playerPosition);
         outState.putBoolean("playWhenReady", playWhenReady);
     }
