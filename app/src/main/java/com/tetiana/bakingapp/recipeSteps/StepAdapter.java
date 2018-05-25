@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tetiana.bakingapp.R;
+import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
 
 import java.util.List;
@@ -19,13 +20,13 @@ import butterknife.ButterKnife;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
 
-    private List<Step> steps;
+    private List<Step> recipe;
     private Context context;
     final private ListItemClickListener mOnClickListener;
     private int clickedPosition;
 
-    StepAdapter(List<Step> steps, Context context, ListItemClickListener listener) {
-        this.steps = steps;
+    StepAdapter(List<Step> recipe, Context context, ListItemClickListener listener) {
+        this.recipe = recipe;
         this.context = context;
         mOnClickListener = listener;
     }
@@ -44,15 +45,15 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull StepAdapter.StepHolder holder, int position) {
-        String number = steps.get(position).getId();
-        String stepName = steps.get(position).getShortDescription();
+        String number = recipe.get(position).getId();
+        String stepName = recipe.get(position).getShortDescription();
         holder.stepNumber.setText(number);
         holder.stepText.setText(stepName);
     }
 
     @Override
     public int getItemCount() {
-        return (steps == null) ? 0 : steps.size();
+        return (recipe == null) ? 0 : recipe.size();
     }
 
     class StepHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

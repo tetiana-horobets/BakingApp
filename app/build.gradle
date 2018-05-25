@@ -16,6 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    useLibrary  'org.apache.http.legacy'
 }
 
 dependencies {
@@ -43,4 +44,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 }

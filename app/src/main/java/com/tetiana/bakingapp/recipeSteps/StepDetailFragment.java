@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
@@ -39,19 +40,22 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.tetiana.bakingapp.DataReader;
+import com.squareup.picasso.Picasso;
+import com.tetiana.bakingapp.JSONParse;
 import com.tetiana.bakingapp.R;
+import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StepDetailFragment extends Fragment implements ExoPlayer.EventListener {
 
+    List<Recipe> recipes = new JSONParse().execute().get();
     List<Step> steps = new ArrayList<>();
     private int step_id;
     private SimpleExoPlayer player;
@@ -60,6 +64,9 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private long playerPosition = C.TIME_UNSET;
     private static final String PLAYER_POSITION_KEY = "position";
     private boolean playWhenReady;
+
+    public StepDetailFragment() throws ExecutionException, InterruptedException {
+    }
 
     public void setStep_id(int step_id) {
         this.step_id = step_id;
@@ -77,17 +84,15 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @BindView(R.id.next_step)
     Button nextStep;
 
+    @BindView(R.id.video_image)
+    ImageView video_image;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         step_id = getActivity().getIntent().getIntExtra("stepID", 0);
-
-        try {
-            DataReader dataReader = new DataReader(getActivity().getApplicationContext());
-            steps = dataReader.getStepList();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        int recipe_id = getActivity().getIntent().getIntExtra("recipeID", 0);
+        steps = recipes.get(recipe_id).getSteps();
     }
 
     @Nullable
@@ -154,111 +159,114 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         stepText.setText(steps.get(step_id).getDescription());
         videoURL = steps.get(step_id).getVideoURL();
         thumbnailURL = steps.get(step_id).getThumbnailURL();
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-            TrackSelection.Factory videoTrackSelectionFactory =
-                    new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-            TrackSelector trackSelector =
-                    new DefaultTrackSelector(videoTrackSelectionFactory);
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory videoTrackSelectionFactory =
+                new AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector =
+                new DefaultTrackSelector(videoTrackSelectionFactory);
 
-            LoadControl loadControl = new DefaultLoadControl();
-            loadControl.shouldStartPlayback(0, false);
+        LoadControl loadControl = new DefaultLoadControl();
+        loadControl.shouldStartPlayback(0, false);
 
-            player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
-            playerView.setPlayer(player);
-            if (playerPosition != C.TIME_UNSET) {
-                player.seekTo(playerPosition);
+        player = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector, loadControl);
+        playerView.setPlayer(player);
+        if (playerPosition != C.TIME_UNSET) {
+            player.seekTo(playerPosition);
+
+        }
+        player.setPlayWhenReady(playWhenReady);
+            if ((videoURL == null || videoURL.isEmpty())) {
+                if ((thumbnailURL == null || thumbnailURL.isEmpty())){
+                    playerView.setDefaultArtwork(BitmapFactory.decodeResource
+                            (getResources(), R.mipmap.baseline_videocam_off_white_48));
+                }else{
+                    Picasso.with(getActivity().getApplicationContext())
+                            .load(thumbnailURL)
+                            .into(video_image);
+
+                }
+            }else {
+                prepareVideo(videoURL);
 
             }
-                player.setPlayWhenReady(playWhenReady);
 
-
-        if (videoURL == null || videoURL.isEmpty()) {
-            playerView.setDefaultArtwork(BitmapFactory.decodeResource
-                    (getResources(), R.mipmap.baseline_videocam_off_white_48));
-        } else if (!videoURL.isEmpty()) {
-            prepareVideo(videoURL);
-        } else if (!thumbnailURL.isEmpty()) {
-            prepareVideo(thumbnailURL);
         }
 
-    }
-
     @Override
-    public void onPause() {
-        super.onPause();
-        if (player != null) {
-            player.setPlayWhenReady(playWhenReady);
-        }
-       releasePlayer();
-    }
-
-    @Override
-    public void onTimelineChanged(Timeline timeline, Object manifest) {
-    }
-
-    @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-    }
-
-    @Override
-    public void onLoadingChanged(boolean isLoading) {
-    }
-
-    @Override
-    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        switch (playbackState) {
-            case ExoPlayer.STATE_BUFFERING:
-                break;
-            case ExoPlayer.STATE_IDLE:
-                break;
-            case ExoPlayer.STATE_READY:
-                break;
-            case ExoPlayer.STATE_ENDED:
-                break;
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || player == null) {
+            loading(step_id);
         }
     }
+        @Override
+        public void onTimelineChanged (Timeline timeline, Object manifest){
+        }
 
-    @Override
-    public void onPlayerError(ExoPlaybackException error) {
-        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity().getApplicationContext());
-        adb.setTitle("Could not able to stream video");
-        adb.setMessage("It seems that something is going wrong.\nPlease try again.");
-        adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                getActivity().finish();
+        @Override
+        public void onTracksChanged (TrackGroupArray trackGroups, TrackSelectionArray
+        trackSelections){
+        }
+
+        @Override
+        public void onLoadingChanged ( boolean isLoading){
+        }
+
+        @Override
+        public void onPlayerStateChanged ( boolean playWhenReady, int playbackState){
+            switch (playbackState) {
+                case ExoPlayer.STATE_BUFFERING:
+                    break;
+                case ExoPlayer.STATE_IDLE:
+                    break;
+                case ExoPlayer.STATE_READY:
+                    break;
+                case ExoPlayer.STATE_ENDED:
+                    break;
             }
-        });
-        AlertDialog ad = adb.create();
-        ad.show();
-    }
+        }
 
-    @Override
-    public void onPositionDiscontinuity() {
-        Log.d("Mayur", "Discontinuity");
-    }
+        @Override
+        public void onPlayerError (ExoPlaybackException error){
+            AlertDialog.Builder adb = new AlertDialog.Builder(getActivity().getApplicationContext());
+            adb.setTitle("Could not able to stream video");
+            adb.setMessage("It seems that something is going wrong.\nPlease try again.");
+            adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    getActivity().finish();
+                }
+            });
+            AlertDialog ad = adb.create();
+            ad.show();
+        }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
-    }
+        @Override
+        public void onPositionDiscontinuity () {
+            Log.d("Mayur", "Discontinuity");
+        }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-       releasePlayer();
-    }
+        @Override
+        public void onDestroy () {
+            super.onDestroy();
+            releasePlayer();
+        }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("step_id", step_id);
-        releasePlayer();
-        outState.putLong(PLAYER_POSITION_KEY, playerPosition);
-        outState.putBoolean("playWhenReady", playWhenReady);
-    }
+        @Override
+        public void onStop () {
+            super.onStop();
+            releasePlayer();
+        }
+
+        @Override
+        public void onSaveInstanceState (@NonNull Bundle outState){
+            super.onSaveInstanceState(outState);
+            outState.putInt("step_id", step_id);
+            releasePlayer();
+            outState.putLong(PLAYER_POSITION_KEY, playerPosition);
+            outState.putBoolean("playWhenReady", playWhenReady);
+        }
 
     private void releasePlayer() {
         if (player != null) {

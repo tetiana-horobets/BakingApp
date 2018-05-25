@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.tetiana.bakingapp.R;
 
+import java.util.concurrent.ExecutionException;
+
 public class IngredientActivity extends AppCompatActivity {
     Integer recipe_id;
 
@@ -17,8 +19,14 @@ public class IngredientActivity extends AppCompatActivity {
          recipe_id = this.getIntent().getIntExtra("recipeID", 0);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.frame_layout_ingredient, RecipeIngredientFragment.newInstance())
-                .commit();
+        try {
+            fragmentManager.beginTransaction()
+                    .add(R.id.frame_layout_ingredient, new RecipeIngredientFragment())
+                    .commit();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

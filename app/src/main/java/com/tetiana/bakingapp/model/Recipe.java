@@ -1,16 +1,16 @@
 package com.tetiana.bakingapp.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Recipe {
     private Integer id;
     private String name;
-    private ArrayList<Ingredient> ingredients;
-    private ArrayList<Step> steps;
+    private List<Ingredient> ingredients;
+    private List<Step> steps;
     private String servings;
     private String image;
 
-    public Recipe(Integer id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, String servings, String image) {
+    public Recipe(Integer id, String name, List<Ingredient> ingredients, List<Step> steps, String servings, String image) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -27,7 +27,7 @@ public class Recipe {
         return name;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
@@ -37,5 +37,9 @@ public class Recipe {
 
     public String getImage() {
         return image;
+    }
+
+    public List<Step> getSteps() {
+        return steps;
     }
 }

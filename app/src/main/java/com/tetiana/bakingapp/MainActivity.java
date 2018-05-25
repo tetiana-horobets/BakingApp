@@ -10,22 +10,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.recipeSteps.StepActivity;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements RecipeListAdapter.ListItemClickListener {
-    List<Recipe> recipes = new ArrayList<>();
+
+    List<Recipe> recipes = new JSONParse().execute().get();
     private RecipeListAdapter movieAdapter;
 
     @BindView(R.id.rv_show_recipes_list)
     RecyclerView mRecyclerView;
+
+    public MainActivity() throws ExecutionException, InterruptedException {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +39,6 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         ButterKnife.bind(this);
         assignAppWidgetId();
         sendUpdateIntent(getApplication());
-        try {
-            DataReader dataReader = new DataReader(this);
-            recipes = dataReader.getRecipe();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         movieAdapter = new RecipeListAdapter(this, recipes, this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,  new NumberOfColumns().numberOfColumns(this)));
         mRecyclerView.setAdapter(movieAdapter);
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Integer id = movieAdapter.getId();
+        Integer id = clickedItemIndex;
         Intent intent = new Intent(this, StepActivity.class);
         intent.putExtra("recipeID", id);
         startActivity(intent);

@@ -17,12 +17,13 @@ import com.tetiana.bakingapp.model.Ingredient;
 import com.tetiana.bakingapp.model.Recipe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WidgetFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private static final int ID_CONSTANT = 0x0101010;
 
-    private ArrayList<Ingredient> ingredients = new ArrayList<>();
+    private List<Ingredient> ingredients = new ArrayList<>();
     private Context mContext;
 
     WidgetFactory(Context context) {

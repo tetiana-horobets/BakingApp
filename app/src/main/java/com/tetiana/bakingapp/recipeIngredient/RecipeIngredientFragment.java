@@ -10,23 +10,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+import com.tetiana.bakingapp.JSONParse;
 import com.tetiana.bakingapp.R;
-import com.tetiana.bakingapp.DataReader;
 import com.tetiana.bakingapp.model.Ingredient;
+import com.tetiana.bakingapp.model.Recipe;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecipeIngredientFragment extends Fragment {
     private IngredientAdapter ingredientAdapter;
-    ArrayList<Ingredient> ingredients = new ArrayList<>();
-    public static RecipeIngredientFragment newInstance() {
-        return new RecipeIngredientFragment();
+    List<Recipe> recipes = new JSONParse().execute().get();
+    List<Ingredient> ingredients =new ArrayList<>();
+
+    public RecipeIngredientFragment() throws ExecutionException, InterruptedException {
     }
+
     @BindView(R.id.rv_ingredient_list)
     RecyclerView mRecyclerView;
 
@@ -34,12 +37,7 @@ public class RecipeIngredientFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Integer recipe_id = getActivity().getIntent().getIntExtra("recipeID", 0);
-        try {
-            DataReader dataReader = new DataReader(getActivity().getApplicationContext());
-            ingredients = dataReader.getRecipe(recipe_id).getIngredients();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ingredients = recipes.get(recipe_id).getIngredients();
         ingredientAdapter = new IngredientAdapter(ingredients, getActivity().getApplicationContext());
     }
 

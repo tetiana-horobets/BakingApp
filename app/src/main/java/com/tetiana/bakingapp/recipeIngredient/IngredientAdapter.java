@@ -11,17 +11,17 @@ import android.widget.TextView;
 import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.model.Ingredient;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientHolder>{
 
-    private ArrayList<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
     private Context context;
 
-    public IngredientAdapter(ArrayList<Ingredient> ingredients, Context context) {
+    public IngredientAdapter(List<Ingredient> ingredients, Context context) {
         this.ingredients = ingredients;
         this.context = context;
     }

@@ -11,14 +11,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
+import com.tetiana.bakingapp.JSONParse;
 import com.tetiana.bakingapp.R;
-import com.tetiana.bakingapp.DataReader;
+import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
 import com.tetiana.bakingapp.recipeIngredient.IngredientActivity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +27,8 @@ import butterknife.ButterKnife;
 public class StepActivity extends AppCompatActivity implements StepAdapter.ListItemClickListener{
 
     private boolean mTwoPane;
-    List<Step> steps = new ArrayList<>();
+    List<Recipe> recipes = new JSONParse().execute().get();
+    List<Step> recipe = new ArrayList<>();
     private StepAdapter stepAdapter;
     private StepDetailFragment finalStepDetailFragment;
     RecyclerView.LayoutManager layoutManager;
@@ -34,6 +36,7 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     private static final String LIST_STATE_KEY = "list_state_key";
     private static final String MY_FRAGMENT_TAG = "my_fragment_tag";
     private static final String FRAGMENT = "fragment";
+    private  Integer recipe_id;
 
     @BindView(R.id.ingredients)
     Button ingredient;
@@ -46,12 +49,15 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
         public void onStepChanged(int stepId) {}
     };
 
+    public StepActivity() throws ExecutionException, InterruptedException {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
         ButterKnife.bind(this);
-        final Integer recipe_id = getIntent().getIntExtra("recipeID", 0);
+        recipe_id = getIntent().getIntExtra("recipeID", 0);
 
         ingredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,22 +68,23 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
             }
         });
 
-        try {
-            DataReader dataReader = new DataReader(getApplicationContext());
-            steps = dataReader.getStepList();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stepAdapter = new StepAdapter(steps, getApplicationContext(), this);
+        recipe = recipes.get(recipe_id).getSteps();
+        stepAdapter = new StepAdapter(recipe, getApplicationContext(), this);
         layoutManager = new GridLayoutManager(this, 1);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(stepAdapter);
 
         if (findViewById(R.id.lend_layout) != null){
             mTwoPane = true;
-            finalStepDetailFragment = new StepDetailFragment();
+            try {
+                finalStepDetailFragment = new StepDetailFragment();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-                setStepChangeHandler(new StepActivity.StepChangeHandler() {
+            setStepChangeHandler(new StepActivity.StepChangeHandler() {
                     @Override
                     public void onStepChanged(int stepId) {
                         finalStepDetailFragment.setStep_id(stepId);
@@ -113,6 +120,7 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
         }else {
             Intent intent = new Intent(this, StepDetailsActivity.class);
             intent.putExtra("stepID", id);
+            intent.putExtra("recipeID", recipe_id);
             startActivity(intent);
         }
     }

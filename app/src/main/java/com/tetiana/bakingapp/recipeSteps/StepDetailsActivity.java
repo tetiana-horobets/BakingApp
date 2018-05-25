@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.tetiana.bakingapp.R;
 
+import java.util.concurrent.ExecutionException;
+
 public class StepDetailsActivity extends AppCompatActivity {
     StepDetailFragment stepDetailFragment;
 
@@ -14,7 +16,13 @@ public class StepDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
         if (savedInstanceState == null){
-            stepDetailFragment = new StepDetailFragment();
+            try {
+                stepDetailFragment = new StepDetailFragment();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_layout_step, stepDetailFragment)
