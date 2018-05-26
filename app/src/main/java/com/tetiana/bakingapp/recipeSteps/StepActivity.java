@@ -79,13 +79,13 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
 
         if (findViewById(R.id.lend_layout) != null){
             mTwoPane = true;
-            try {
+           // try {
                 finalStepDetailFragment = new StepDetailFragment();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
             setStepChangeHandler(new StepActivity.StepChangeHandler() {
                     @Override

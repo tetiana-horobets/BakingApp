@@ -7,23 +7,30 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/playerView"
+    <RelativeLayout
+        android:id="@+id/video_layout"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UnknownId" />
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/video_image"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,UnknownId" />
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UnknownId" />
+
+        <ImageView
+            android:id="@+id/video_image"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription,UnknownId" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/step_full_text"
@@ -34,7 +41,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playerView" />
+        app:layout_constraintTop_toBottomOf="@+id/video_layout" />
 
     <Button
         android:id="@+id/previous_step"
