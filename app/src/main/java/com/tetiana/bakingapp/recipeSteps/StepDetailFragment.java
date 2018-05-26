@@ -41,7 +41,6 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
-import com.tetiana.bakingapp.DataReader;
 import com.tetiana.bakingapp.JSONParse;
 import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.model.Recipe;
@@ -57,6 +56,7 @@ import butterknife.ButterKnife;
 
 public class StepDetailFragment extends Fragment implements ExoPlayer.EventListener {
 
+    List<Recipe> recipes = new JSONParse().execute().get();
     List<Step> steps = new ArrayList<>();
     private int step_id;
     private SimpleExoPlayer player;
@@ -65,6 +65,9 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     private long playerPosition = C.TIME_UNSET;
     private static final String PLAYER_POSITION_KEY = "position";
     private boolean playWhenReady;
+
+    public StepDetailFragment() throws ExecutionException, InterruptedException {
+    }
 
     public void setStep_id(int step_id) {
         this.step_id = step_id;
@@ -90,13 +93,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         super.onCreate(savedInstanceState);
         step_id = getActivity().getIntent().getIntExtra("stepID", 0);
         int recipe_id = getActivity().getIntent().getIntExtra("recipeID", 0);
-
-        try {
-            DataReader dataReader = new DataReader(getActivity().getApplicationContext());
-            steps = dataReader.getRecipe(step_id).getSteps();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        steps = recipes.get(recipe_id).getSteps();
     }
 
     @Nullable
@@ -182,7 +179,11 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         if ((videoURL == null || videoURL.isEmpty())) {
             playerView.setVisibility(View.GONE);
             video_image.setVisibility(View.VISIBLE);
-            if ((thumbnailURL != null || !thumbnailURL.isEmpty())){
+            if (thumbnailURL.equals("")){
+                Picasso.with(getActivity().getApplicationContext())
+                        .load(R.drawable.baseline_videocam_off_black_36dp)
+                        .into(video_image);
+            }else if(thumbnailURL != null){
                 Picasso.with(getActivity().getApplicationContext())
                         .load(thumbnailURL)
                         .error(R.drawable.baseline_videocam_off_black_36dp)
@@ -192,20 +193,16 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
             video_image.setVisibility(View.GONE);
             playerView.setVisibility(View.VISIBLE);
             prepareVideo(videoURL);
-
         }
-
     }
 
     @Override
-    public void onPause () {
-        super.onPause();
-        if (player != null) {
-            player.setPlayWhenReady(playWhenReady);
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || player == null) {
+            loading(step_id);
         }
-        releasePlayer();
     }
-
     @Override
     public void onTimelineChanged (Timeline timeline, Object manifest){
     }
