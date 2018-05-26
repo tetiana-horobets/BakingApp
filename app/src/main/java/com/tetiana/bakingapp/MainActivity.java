@@ -76,4 +76,5 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
         editor.putString("ingredients", ingredients);
         editor.apply();
     }
+
 }

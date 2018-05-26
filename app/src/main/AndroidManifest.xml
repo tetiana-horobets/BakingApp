@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.tetiana.bakingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,7 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".recipeIngredient.IngredientActivity" />
+        <activity android:name=".recipeIngredient.IngredientActivity"
+            android:parentActivityName="com.tetiana.bakingapp.recipeSteps.StepActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".recipeSteps.StepActivity" />
+
+        </activity>
 
         <activity android:name=".recipeSteps.StepDetailsActivity">
         </activity>
@@ -38,7 +46,14 @@
                 android:resource="@xml/baking_widget_provide_info" />
         </receiver>
 
-        <activity android:name=".recipeSteps.StepActivity" />
+        <activity android:name=".recipeSteps.StepActivity"
+            android:parentActivityName="com.tetiana.bakingapp.MainActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tetiana.bakingapp.MainActivity" />
+
+        </activity>
     </application>
 
 </manifest>
