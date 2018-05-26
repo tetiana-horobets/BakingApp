@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tetiana.bakingapp.R;
-import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
 
 import java.util.List;

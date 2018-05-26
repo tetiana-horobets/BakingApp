@@ -21,7 +21,7 @@ public class JSONParse extends AsyncTask<Void, Void, List<Recipe>> {
         List<Recipe> recipes = new ArrayList<Recipe>();
         try {
             JSONObject jo;
-            JSONArray ja2 = JSONParser.getJSONfromURL("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
+            JSONArray ja2 = DataLoader.getJSONfromURL();
 
             for (int i = 0; i < ja2.length(); i++) {
                 jo = ja2.getJSONObject(i);

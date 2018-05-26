@@ -2,7 +2,6 @@ package com.tetiana.bakingapp.recipeSteps;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,7 +45,6 @@ import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.model.Recipe;
 import com.tetiana.bakingapp.model.Step;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;

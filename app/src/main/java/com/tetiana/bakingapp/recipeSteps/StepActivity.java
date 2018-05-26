@@ -118,7 +118,6 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
@@ -128,12 +127,11 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        int id = stepAdapter.getId();
         if (mTwoPane){
-            stepChangeHandler.onStepChanged(id);
+            stepChangeHandler.onStepChanged(clickedItemIndex);
         }else {
             Intent intent = new Intent(this, StepDetailsActivity.class);
-            intent.putExtra("stepID", id);
+            intent.putExtra("stepID", clickedItemIndex);
             intent.putExtra("recipeID", recipe_id);
             startActivity(intent);
         }

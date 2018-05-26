@@ -18,16 +18,14 @@ import java.net.URL;
 import java.net.URLConnection;
 
 
-public class JSONParser {
-    public static JSONArray getJSONfromURL(String url) {
+class DataLoader {
+    static JSONArray getJSONfromURL() {
         InputStream is = null;
         String result = "";
         JSONArray jArray = null;
-
-        // Download JSON data from URL
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(url);
+            HttpPost httppost = new HttpPost("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
             is = entity.getContent();
@@ -39,7 +37,7 @@ public class JSONParser {
 
         StringBuffer sb = new StringBuffer("");
         try {
-            URL urls = new URL(url);
+            URL urls = new URL("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
             URLConnection urlConnection;
             urlConnection = urls.openConnection();
             InputStream in = urlConnection.getInputStream();
@@ -50,8 +48,8 @@ public class JSONParser {
             }
             System.out.println(sb);
             result=sb.toString();
-        } catch (IOException e) {}
-        catch (Exception e) {}
+        } catch (IOException ignored) {}
+        catch (Exception ignored) {}
         try {
 
             jArray = new JSONArray(result);

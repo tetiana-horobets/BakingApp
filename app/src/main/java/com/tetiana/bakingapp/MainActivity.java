@@ -62,9 +62,8 @@ public class MainActivity extends AppCompatActivity implements RecipeListAdapter
 
     @Override
     public void onListItemClick(int clickedItemIndex) {
-        Integer id = clickedItemIndex;
         Intent intent = new Intent(this, StepActivity.class);
-        intent.putExtra("recipeID", id);
+        intent.putExtra("recipeID", clickedItemIndex);
         startActivity(intent);
 
         sendUpdateIntent(getApplicationContext());
