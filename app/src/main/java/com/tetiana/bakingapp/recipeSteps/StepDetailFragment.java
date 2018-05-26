@@ -154,7 +154,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
         player.setPlayWhenReady(playWhenReady);
     }
 
-    public void loading(int step_id) {
+    private void loading(int step_id) {
         stepText.setText(steps.get(step_id).getDescription());
         videoURL = steps.get(step_id).getVideoURL();
         thumbnailURL = steps.get(step_id).getThumbnailURL();
