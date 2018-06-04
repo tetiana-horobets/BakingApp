@@ -1,5 +1,6 @@
 ## BakingApp
  BakingApp is the project which I made from scratch for [Android Developer Nanodegree Program](https://eu.udacity.com/course/android-developer-nanodegree-by-google--nd801). The app takes some recipes in JSON format from the web and shows ingredients, steps, videos. 
+ 
  Thei aim of the app is to learn how to:
  - use MediaPlayer/Exoplayer to display videos
  - handle error cases in Android
