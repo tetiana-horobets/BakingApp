@@ -1,52 +1,43 @@
 ## BakingApp
- BakingApp is the project which I made from scratch for [Android Developer Nanodegree Program](https://eu.udacity.com/course/android-developer-nanodegree-by-google--nd801). The app takes some recipes in JSON format from the web and shows ingredients, steps, videos. 
- Thei aim of the app is to learn how to:
- - use MediaPlayer/Exoplayer to display videos
- - handle error cases in Android
- - add a widget to your app experience
- - leverage a third-party library in your app
- - use Fragments to create a responsive design that works on phones and tablets
+BakingApp is the project which I made from scratch for [Android Developer Nanodegree Program](https://eu.udacity.com/course/android-developer-nanodegree-by-google--nd801). The app takes recipes in JSON format from the web and shows ingredients, steps and videos. 
+ 
+### Learning Outcomes
 
-###  This app features or uses the following components of android
-
-* this app handles Activity and Fragment lifeCycles
-* this app maintains instanceState on configuration change (Activity and Fragment)
+* managing activity and fragment lifecycle
 * passing data between activities and fragments
-* fragments and re-use of the same fragment in different activities
-* desiging layouts for different screen sizes(Phone and tablet) and orientation (Landscape)
-* loading data from network, Loading and caching Image form network
-* JSON data handling and serialization
-* Widgets
-* streaming video using ExoPlayer
-* RecyclerViews, CardViews
-* Espresso Unit Tests
+* using Exoplayer to display videos
+* creating Android Widget
+* designing layouts for different screen sizes (phones and tablets) and orientation (portrait and landscape)
+* loading and caching data from network 
+* JSON parsing and serialization
+* testing with Espresso Tests
 
-### About this app
+### App features
 
-Retrives a list of recipes from given url (By Udacity)
+Display a list of recipes (recipes are provided by Udacity)
 
 <img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154234.png" width="300">
 
-On Clicking on a recipe it shows the ingredients and steps to cook
+Show the ingredients and steps to cook
 
 <img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154306.png" width="300">
 
-On phone if a step is clicked it launches a new activity which displays video instruction
+Display video instructions
 
 <img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154408.png" width="300">
 
-On tablet if a step is clicked it shows in the right panel of the screen
+Provide tablet-friendly layout
 
 <img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-171709.png" width="500">
 
-The widget will update ingredients when user selects a recipe in the app
+Display ingredients as a widget
 
 <img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154458.png" width="300">
 
-### This app makes use of the following external libraries and resources
+### Libraries And External Resources
 
 * Recipe data is provided by Udacity
-* [Picasso](http://square.github.io/picasso/) - a powerful library that handles image loading and caching in the app
+* [Picasso](http://square.github.io/picasso/)
 * [ButterKnife](http://jakewharton.github.io/butterknife/) 
 * [ExoPlayer](https://github.com/google/ExoPlayer)
 * [Espresso](https://developer.android.com/training/testing/espresso/)
