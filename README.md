@@ -39,4 +39,4 @@
 * [Gson](https://github.com/google/gson)
 * [Support Library Packages](https://developer.android.com/topic/libraries/support-library/packages)
 
-![Adding option](https://raw.githubusercontent.com/tetiana-horobets//master/screens/add_option.png)
+![Adding option](https://github.com/tetiana-horobets/BakingApp/tree/master/screens/device-2018-06-04-154234.png)
