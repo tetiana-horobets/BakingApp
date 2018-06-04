@@ -39,4 +39,4 @@
 * [Gson](https://github.com/google/gson)
 * [Support Library Packages](https://developer.android.com/topic/libraries/support-library/packages)
 
-<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154234.png" width="370">
+<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154234.png" width="300">
