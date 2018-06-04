@@ -1,24 +1,24 @@
 ## BakingApp
  BakingApp is the project which I made from scratch for [Android Developer Nanodegree Program](https://eu.udacity.com/course/android-developer-nanodegree-by-google--nd801). The app takes some recipes in JSON format from the web and shows ingredients, steps, videos. Thei aim of the app is to learn how to:
- - Use MediaPlayer/Exoplayer to display videos
- - Handle error cases in Android
- - Add a widget to your app experience
- - Leverage a third-party library in your app
- - Use Fragments to create a responsive design that works on phones and tablets
+ - use MediaPlayer/Exoplayer to display videos
+ - handle error cases in Android
+ - add a widget to your app experience
+ - leverage a third-party library in your app
+ - use Fragments to create a responsive design that works on phones and tablets
 
 ###  This app features or uses the following components of android
 
-* This app handles Activity and Fragment lifeCycles
-* This app maintains instanceState on configuration change (Activity and Fragment).
-* Passing data between activities and fragments.
-* Fragments and re-use of the same fragment in different activities.
-* Desiging layouts for different screen sizes(Phone and tablet) and orientation (Landscape)
-* Loading data from network, Loading and caching Image form network.
-* JSON data handling and serialization.
+* this app handles Activity and Fragment lifeCycles
+* this app maintains instanceState on configuration change (Activity and Fragment)
+* passing data between activities and fragments
+* fragments and re-use of the same fragment in different activities
+* desiging layouts for different screen sizes(Phone and tablet) and orientation (Landscape)
+* loading data from network, Loading and caching Image form network
+* JSON data handling and serialization
 * Widgets
-* Streaming video using ExoPlayer.
+* streaming video using ExoPlayer
 * RecyclerViews, CardViews
-* Espresso Unit Tests.
+* Espresso Unit Tests
 
 ### About this app
 
