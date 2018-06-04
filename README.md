@@ -36,7 +36,7 @@ On phone if a step is clicked it launches a new activity which displays video in
 
 On tablet if a step is clicked it shows in the right panel of the screen
 
-<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-171709.png" width="300">
+<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-171709.png" width="500">
 
 The widget will update ingredients when user selects a recipe in the app
 
