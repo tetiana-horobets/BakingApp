@@ -6,10 +6,6 @@
  - Leverage a third-party library in your app
  - Use Fragments to create a responsive design that works on phones and tablets
 
-> Click on image and open video on youtube
-
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/kSzq3fyg85w/0.jpg)](https://www.youtube.com/watch?v=kSzq3fyg85w)
-
 ### About this app
  - Retrives a list of recipes from given url (By Udacity)
  - On Clicking on a recipe it shows the ingredients and steps to cook
@@ -42,3 +38,5 @@
 * [Espresso](https://developer.android.com/training/testing/espresso/)
 * [Gson](https://github.com/google/gson)
 * [Support Library Packages](https://developer.android.com/topic/libraries/support-library/packages)
+
+![alt text](/Desktop/foto/device-2018-06-04-154234.png)
