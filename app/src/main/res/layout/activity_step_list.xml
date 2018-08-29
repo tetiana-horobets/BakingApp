@@ -13,19 +13,32 @@
     android:layout_height="wrap_content"
     tools:context="com.tetiana.bakingapp.MainActivity">
 
+    <ImageView
+        android:id="@+id/recipe_imege_step"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="TODO" />
+
     <Button
         android:id="@+id/ingredients"
         android:layout_width="369dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="7dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/ingredients"
+        android:layout_marginTop="21dp"
         android:layout_x="18dp"
         android:layout_y="15dp"
+        android:visibility="gone"
+        android:text="@string/ingredients"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/rv_step_list"
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="8dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_step_list"
@@ -33,10 +46,26 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ingredients"/>
+        app:layout_constraintTop_toBottomOf="@+id/recipe_title_steps"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/recipe_title_steps"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/colorTitle"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_imege_step"
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>
 </ScrollView>

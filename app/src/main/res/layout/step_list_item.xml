@@ -9,38 +9,30 @@
 
     <TextView
         android:id="@+id/step_text"
-        android:layout_width="272dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="660dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="12dp"
+        android:textSize="17sp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/colorText"
         app:layout_constraintStart_toEndOf="@+id/step_number"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="8dp" />
+        android:layout_marginLeft="12dp" />
 
     <TextView
         android:id="@+id/step_number"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
+        android:textColor="@color/colorNumber"
+        android:gravity="center"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlCompat" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="37dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/step_text"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@mipmap/ic_keyboard_arrow_right_black_36dp"
-        tools:ignore="ContentDescription,RtlCompat" />
 </android.support.constraint.ConstraintLayout>
 

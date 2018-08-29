@@ -25,7 +25,7 @@ class DataLoader {
         JSONArray jArray = null;
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
+            HttpPost httppost = new HttpPost("http://baking.s3-website-eu-west-1.amazonaws.com");
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
             is = entity.getContent();
@@ -37,7 +37,7 @@ class DataLoader {
 
         StringBuffer sb = new StringBuffer("");
         try {
-            URL urls = new URL("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json");
+            URL urls = new URL("http://baking.s3-website-eu-west-1.amazonaws.com");
             URLConnection urlConnection;
             urlConnection = urls.openConnection();
             InputStream in = urlConnection.getInputStream();

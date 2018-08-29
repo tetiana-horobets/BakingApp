@@ -7,12 +7,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.tetiana.bakingapp.JSONParse;
 import com.tetiana.bakingapp.R;
 import com.tetiana.bakingapp.model.Recipe;
@@ -75,7 +81,20 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.ListI
         stepAdapter = new StepAdapter(recipe, getApplicationContext(), this);
         layoutManager = new GridLayoutManager(this, 1);
         mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         mRecyclerView.setAdapter(stepAdapter);
+//        ImageView recipe_image = findViewById(R.id.recipe_imege_step);
+        TextView recipe_title = findViewById(R.id.recipe_title_steps);
+        String title = recipes.get(recipe_id).getName();
+        recipe_title.setText(title);
+//        String image = recipes.get(recipe_id).getImage();
+//        if (!image.equals("")){
+//            Picasso.with(getApplicationContext())
+//                    .load(image)
+//                    .into(recipe_image);
+//        }else {
+//            recipe_image.setImageResource(R.mipmap.ic_recipe);
+//        }
 
         if (findViewById(R.id.lend_layout) != null){
             mTwoPane = true;

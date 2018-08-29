@@ -24,25 +24,12 @@
 
 ### About this app
 
-Retrives a list of recipes from given url (By Udacity)
-
-<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154234.png" width="300">
-
 On Clicking on a recipe it shows the ingredients and steps to cook
-
-<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154306.png" width="300">
-
 On phone if a step is clicked it launches a new activity which displays video instruction
-
-<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154408.png" width="300">
-
 On tablet if a step is clicked it shows in the right panel of the screen
-
-<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-171709.png" width="500">
-
 The widget will update ingredients when user selects a recipe in the app
 
-<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018-06-04-154458.png" width="300">
+<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/photoeditorsdk-export.png" width="300">
 
 ### This app makes use of the following external libraries and resources
 
