@@ -25,7 +25,6 @@
 
 ### This app makes use of the following external libraries and resources
 
-* Recipe data is provided by Udacity
 * [Picasso](http://square.github.io/picasso/) - a powerful library that handles image loading and caching in the app
 * [ButterKnife](http://jakewharton.github.io/butterknife/) 
 * [ExoPlayer](https://github.com/google/ExoPlayer)
