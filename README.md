@@ -21,6 +21,8 @@
 * RecyclerViews, CardViews
 * Espresso Unit Tests
 
+<img src="https://raw.githubusercontent.com/tetiana-horobets/BakingApp/master/screens/device-2018.png" width="1000">
+
 ### This app makes use of the following external libraries and resources
 
 * Recipe data is provided by Udacity
